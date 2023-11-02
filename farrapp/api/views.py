@@ -10,6 +10,20 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 
 from .serializers import UserSerializer
 
+from .models import Ej_establishment, Trie, Node_establishment
+from .search import search
+
+
+def add_est (request):
+    name = request.GET['name']
+    new_establishment = Ej_establishment(name=name)
+    new_establishment.save()
+    return Response("added")
+
+def search_query (request):
+    name = request.GET['name']
+    search(name)
+    return Response("okis")
 
 @api_view(['POST'])
 def login(request):
