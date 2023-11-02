@@ -13,17 +13,18 @@ from .serializers import UserSerializer
 from .models import Ej_establishment, Trie, Node_establishment
 from .search import search
 
-
+@api_view(['GET'])
 def add_est (request):
     name = request.GET['name']
     new_establishment = Ej_establishment(name=name)
     new_establishment.save()
-    return Response("added")
+    return Response(f"added", status=status.HTTP_200_OK)
 
+@api_view(['GET'])
 def search_query (request):
     name = request.GET['name']
     search(name)
-    return Response("okis")
+    return Response(f"okis", status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def login(request):
