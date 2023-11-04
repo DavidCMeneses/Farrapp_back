@@ -1,9 +1,11 @@
 import base64
 import binascii
+
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
 from rest_framework import exceptions
 from rest_framework.authentication import get_authorization_header, CSRFCheck, BaseAuthentication
+
 from .BaseUser import AbstractCustomUser
 
 

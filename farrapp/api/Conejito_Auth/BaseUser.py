@@ -1,6 +1,6 @@
-from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.db import models
 
 
 class AbstractCustomUser(AbstractBaseUser):

@@ -1,9 +1,11 @@
-from django.db import models
-from rest_framework.authtoken.models import Token
-import os
-from django.conf import settings
 import binascii
+import os
+
+from django.conf import settings
+from django.db import models
 from django.utils.translation import gettext_lazy as _
+from rest_framework.authtoken.models import Token
+
 from .BaseUser import AbstractCustomUser
 
 
@@ -54,4 +56,3 @@ class TokenProxy(Token):
         proxy = 'rest_framework.authtoken' in settings.INSTALLED_APPS
         abstract = 'rest_framework.authtoken' not in settings.INSTALLED_APPS
         verbose_name = "token"
-
