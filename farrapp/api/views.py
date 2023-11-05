@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .Conejito_Auth import CustomToken, TokenAuthentication
-from .models import ClientModel, Establishment
+from .models import ClientModel, EstablishmentModel
 from .serializers import UserSerializer, EstablishmentSerializer, EstablishmentQuerySerializer
 
 
@@ -18,7 +18,7 @@ def login(request):
     if user_type == 'client':
         user = get_object_or_404(ClientModel, username=request.data['username'])
     elif user_type == 'establishment':
-        user = get_object_or_404(Establishment, username=request.data['username'])
+        user = get_object_or_404(EstablishmentModel, username=request.data['username'])
     else:
         return Response({'error': 'User type not found'}, status=status.HTTP_404_NOT_FOUND)
     if not user.check_password(request.data['password']):
@@ -70,6 +70,6 @@ def check_auth(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def establishments_list(request):
-    queryset = Establishment.objects.all()
+    queryset = EstablishmentModel.objects.all()
     serializer = EstablishmentQuerySerializer(queryset, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
