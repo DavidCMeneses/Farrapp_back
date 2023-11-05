@@ -76,9 +76,9 @@ class Trie(models.Model):
         ]
 
 
-class Node_establishment(models.Model):
+class NodeEstablishment(models.Model):
     node = models.IntegerField()
-    establishment_id = models.ForeignKey(Ej_establishment, on_delete=models.CASCADE)
+    establishment_id = models.ForeignKey(EjEstablishment, on_delete=models.CASCADE)
 
     class Meta:
         indexes = [
