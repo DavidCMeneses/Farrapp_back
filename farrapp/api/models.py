@@ -7,7 +7,9 @@ class ClientModel(AbstractCustomUser):
     birthday = models.DateField()
     sex = models.CharField(max_length=1)
 
-    list_display = ('username', 'email', 'first_name', 'last_name','birthday', 'sex')
+    class Meta:
+        verbose_name = 'Client'
+        verbose_name_plural = 'Clients'
 
 
 class EstablishmentModel(AbstractCustomUser):
@@ -21,6 +23,10 @@ class EstablishmentModel(AbstractCustomUser):
     rut = models.BigIntegerField()
     verified = models.BooleanField()
     playlist_id = models.URLField()
+
+    class Meta:
+        verbose_name = 'Establishment'
+        verbose_name_plural = 'Establishments'
 
 
 class Rating(models.Model):

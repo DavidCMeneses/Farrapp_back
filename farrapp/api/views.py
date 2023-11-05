@@ -28,10 +28,18 @@ def login(request):
     return Response({'token': token.key, "username": serializer.data["username"]}, status=status.HTTP_200_OK)
 
 
-# PLIS UNIFY THIS  --------------
 @api_view(['POST'])
-def signup_user(request):
-    serializer = UserSerializer(data=request.data)
+def signup(request):
+    user_type = request.data.get('user_type', None)
+    if user_type is None:
+        return Response({'error': 'You must provide a user type'}, status=status.HTTP_404_NOT_FOUND)
+    if user_type == 'client':
+        serializer = UserSerializer(data=request.data)
+    elif user_type == 'establishment':
+        serializer = EstablishmentSerializer(data=request.data)
+    else:
+        return Response({'error': 'User type not found'}, status=status.HTTP_404_NOT_FOUND)
+
     if serializer.is_valid():
         user = serializer.save()
         user.set_password(request.data['password'])
@@ -43,22 +51,6 @@ def signup_user(request):
 
 
 @api_view(['POST'])
-def signup_Establishment(request):
-    serializer = EstablishmentSerializer(data=request.data)
-    if serializer.is_valid():
-        user = serializer.save()
-        user.set_password(request.data['password'])
-        user.save()
-        token = CustomToken.objects.create(user=user)
-        return Response({'token': token.key, "username": serializer.data["username"]}, status=status.HTTP_201_CREATED)
-    else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-# ---------------------------------
-
-
-@api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def check_auth(request):
