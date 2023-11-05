@@ -31,3 +31,16 @@ class EstablishmentSerializer(serializers.ModelSerializer):
                   "rut",
                   "verified"
                   ]
+
+
+class EstablishmentQuerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Establishment
+        fields = ["name",
+                  "address",
+                  "city",
+                  "country",
+                  "description",
+                  "rut",
+                  "verified"
+                  ]
