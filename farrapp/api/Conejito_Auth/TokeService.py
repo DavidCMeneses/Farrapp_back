@@ -4,7 +4,6 @@ import os
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from rest_framework.authtoken.models import Token
 
 from .BaseUser import AbstractCustomUser
 
@@ -43,16 +42,3 @@ class CustomToken(models.Model):
         return self.key
 
 
-class TokenProxy(Token):
-    """
-    Proxy mapping pk to user pk for use in admin.
-    """
-
-    @property
-    def pk(self):
-        return self.user_id
-
-    class Meta:
-        proxy = 'rest_framework.authtoken' in settings.INSTALLED_APPS
-        abstract = 'rest_framework.authtoken' not in settings.INSTALLED_APPS
-        verbose_name = "token"

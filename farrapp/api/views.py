@@ -6,20 +6,21 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .Conejito_Auth import CustomToken, TokenAuthentication
-from .models import ClientModel, Establishment
-from .serializers import UserSerializer, EstablishmentSerializer
+from .models import ClientModel, EstablishmentModel
+from .serializers import UserSerializer, EstablishmentSerializer, EstablishmentQuerySerializer
 
 
 @api_view(['POST'])
 def login(request):
-    user_type = request.data['user_type']
+    user_type = request.data.get('user_type', None)
+    if user_type is None:
+        return Response({'error': 'You must provide a user type'}, status=status.HTTP_404_NOT_FOUND)
     if user_type == 'client':
         user = get_object_or_404(ClientModel, username=request.data['username'])
     elif user_type == 'establishment':
-        user = get_object_or_404(Establishment, username=request.data['username'])
+        user = get_object_or_404(EstablishmentModel, username=request.data['username'])
     else:
         return Response({'error': 'User type not found'}, status=status.HTTP_404_NOT_FOUND)
-
     if not user.check_password(request.data['password']):
         return Response({'error': 'Wrong password'}, status=status.HTTP_404_NOT_FOUND)
     token, created = CustomToken.objects.get_or_create(user=user)
@@ -28,8 +29,17 @@ def login(request):
 
 
 @api_view(['POST'])
-def signup_user(request):
-    serializer = UserSerializer(data=request.data)
+def signup(request):
+    user_type = request.data.get('user_type', None)
+    if user_type is None:
+        return Response({'error': 'You must provide a user type'}, status=status.HTTP_404_NOT_FOUND)
+    if user_type == 'client':
+        serializer = UserSerializer(data=request.data)
+    elif user_type == 'establishment':
+        serializer = EstablishmentSerializer(data=request.data)
+    else:
+        return Response({'error': 'User type not found'}, status=status.HTTP_404_NOT_FOUND)
+
     if serializer.is_valid():
         user = serializer.save()
         user.set_password(request.data['password'])
@@ -39,21 +49,19 @@ def signup_user(request):
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['POST'])
-def signup_Establishment(request):
-    serializer = EstablishmentSerializer(data=request.data)
-    if serializer.is_valid():
-        user = serializer.save()
-        user.set_password(request.data['password'])
-        user.save()
-        token = CustomToken.objects.create(user=user)
-        return Response({'token': token.key, "username": serializer.data["username"]}, status=status.HTTP_201_CREATED)
-    else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def check_auth(request):
+    return Response(f"auth OK for user {request.user.username}", status=status.HTTP_200_OK)
+
 
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def test(request):
-    return Response(f"auth OK for user {request.user.username}", status=status.HTTP_200_OK)
+def establishments_list(request):
+    queryset = EstablishmentModel.objects.all()
+    serializer = EstablishmentQuerySerializer(queryset, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

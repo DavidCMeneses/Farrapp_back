@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import ClientModel, Establishment
+from .models import ClientModel, EstablishmentModel
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -13,17 +13,30 @@ class UserSerializer(serializers.ModelSerializer):
                   'first_name',
                   'last_name',
                   "birthday",
-                  "sex"
+                  "sex",
                   ]
 
 
 class EstablishmentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Establishment
+        model = EstablishmentModel
         fields = ['username',
                   'email',
                   'password',
                   "name",
+                  "address",
+                  "city",
+                  "country",
+                  "description",
+                  "rut",
+                  "verified"
+                  ]
+
+
+class EstablishmentQuerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EstablishmentModel
+        fields = ["name",
                   "address",
                   "city",
                   "country",
