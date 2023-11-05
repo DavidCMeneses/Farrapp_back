@@ -8,6 +8,10 @@ class ClientModel(AbstractCustomUser):
     sex = models.CharField(max_length=1)
 
 
+class Playlist(models.Model):
+    link = models.URLField()
+
+
 class Establishment(AbstractCustomUser):
     name = models.CharField(max_length=30)
     address = models.CharField(max_length=50)
@@ -18,17 +22,12 @@ class Establishment(AbstractCustomUser):
     overall_rating = models.IntegerField(default=5)
     rut = models.BigIntegerField()
     verified = models.BooleanField()
-    # playlist_id = models.ForeignKey(Playlist, on_delete=models.PROTECT)
-
-
-"""
-class Playlist(models.Model):
-    link = models.URLField()
+    playlist_id = models.ForeignKey(Playlist, on_delete=models.PROTECT)
 
 
 class Rating(models.Model):
     stars = models.SmallIntegerField()
-    client_id = models.ForeignKey(Client, on_delete=models.CASCADE)
+    client_id = models.ForeignKey(ClientModel, on_delete=models.CASCADE)
     establishment_id = models.ForeignKey(Establishment, on_delete=models.CASCADE)
 
 
@@ -37,12 +36,12 @@ class Category(models.Model):
     type = models.CharField(max_length=1)
 
 
-class User_category(models.Model):
+class UserCategory(models.Model):
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(Client, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(ClientModel, on_delete=models.CASCADE)
 
 
-class Day_week(models.Model):
+class WeekDay(models.Model):
     name = models.CharField(max_length=15)
 
 
@@ -50,20 +49,20 @@ class Image(models.Model):
     link = models.URLField()
 
 
-class Establishment_img(models.Model):
+class EstablishmentImg(models.Model):
     typ = models.CharField(max_length=10)
     image_id = models.ForeignKey(Image, on_delete=models.CASCADE)
     establishment_id = models.ForeignKey(Establishment, on_delete=models.CASCADE)
 
 
-class Establishment_schedule(models.Model):
+class EstablishmentSchedule(models.Model):
     schedule_open = models.TimeField()
-    schadule_close = models.TimeField()
-    day_id = models.ForeignKey(Day_week, on_delete=models.CASCADE)
+    schedule_close = models.TimeField()
+    day_id = models.ForeignKey(WeekDay, on_delete=models.CASCADE)
     establishment_id = models.ForeignKey(Establishment, on_delete=models.CASCADE)
 
 
-class Ej_establishment(models.Model):
+class EjEstablishment(models.Model):
     name = models.CharField(max_length=50)
 
 
@@ -85,4 +84,3 @@ class Node_establishment(models.Model):
         indexes = [
             models.Index(fields=['node']),
         ]
-"""

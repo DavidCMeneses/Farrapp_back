@@ -30,6 +30,7 @@ class EstablishmentSerializer(serializers.ModelSerializer):
                   "description",
                   "rut",
                   "verified"
+                  "playlist_id"
                   ]
 
 
