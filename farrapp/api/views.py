@@ -1,4 +1,3 @@
-from django.core import serializers
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -58,13 +57,13 @@ def signup_Establishment(request):
 
 # ---------------------------------
 
-"""
+
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def test(request):
+def check_auth(request):
     return Response(f"auth OK for user {request.user.username}", status=status.HTTP_200_OK)
-"""
+
 
 
 @api_view(['GET'])
