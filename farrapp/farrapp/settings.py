@@ -4,8 +4,9 @@ Django settings for farrapp project.
 
 from pathlib import Path
 import os
-from dotenv import dotenv_values
+from dotenv import dotenv_values,load_dotenv
 
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -75,9 +76,7 @@ WSGI_APPLICATION = "farrapp.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-config = {
-    **dotenv_values(".env.secret")
-}
+
 
 #DATABASES = {
  #   "default": {
@@ -88,16 +87,18 @@ config = {
  
 # DATABASE RDS
 
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": "awsdb",
-        "USER": config['USER'],
-        "PASSWORD": config['PASSWORD'] ,
-        "PORT": config['PORT'] ,
-        "HOST":config['HOST']
+        "USER": os.getenv('USER'),
+        "PASSWORD": os.getenv('PASSWORD'),
+        "PORT": os.getenv('PORT'),
+        "HOST": os.getenv('HOST'),
     }
 }
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -141,8 +142,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 #Bucket s3 Image Storage
 
-AWS_ACCESS_KEY_ID = config['AWS_ACCESS_KEY_ID']
-AWS_SECRET_ACCESS_KEY = config['AWS_SECRET_ACCESS_KEY']
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = 'superflowerpowers3'
 AWS_S3_SIGNATURE_NAME = 's3v4',
 AWS_S3_REGION_NAME = 'us-west-2'
