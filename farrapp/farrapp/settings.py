@@ -3,6 +3,8 @@ Django settings for farrapp project.
 """
 
 from pathlib import Path
+import os
+from dotenv import dotenv_values
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -73,14 +75,27 @@ WSGI_APPLICATION = "farrapp.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+config = {
+    **dotenv_values(".env.secret")
+}
+
+#DATABASES = {
+ #   "default": {
+ #       "ENGINE": "django.db.backends.sqlite3",
+ #       "NAME": BASE_DIR / "db.sqlite3",
+ #   }
+#}
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": "awsdb",
+        "USER": config['USER'],
+        "PASSWORD": config['PASSWORD'] ,
+        "PORT": config['PORT'] ,
+        "HOST":config['HOST']
     }
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
