@@ -3,9 +3,15 @@ from django.db import models
 from .Conejito_Auth import *
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=50)
+    type = models.CharField(max_length=1)
+
+
 class ClientModel(AbstractCustomUser):
     birthday = models.DateField()
     sex = models.CharField(max_length=1)
+    categories = models.ManyToManyField(Category)
 
     class Meta:
         verbose_name = 'Client'
@@ -23,6 +29,7 @@ class EstablishmentModel(AbstractCustomUser):
     rut = models.BigIntegerField()
     verified = models.BooleanField()
     playlist_id = models.URLField()
+    categories = models.ManyToManyField(Category)
 
     class Meta:
         verbose_name = 'Establishment'
@@ -33,11 +40,6 @@ class Rating(models.Model):
     stars = models.SmallIntegerField()
     client_id = models.ForeignKey(ClientModel, on_delete=models.CASCADE)
     establishment_id = models.ForeignKey(EstablishmentModel, on_delete=models.CASCADE)
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=50)
-    type = models.CharField(max_length=1)
 
 
 class UserCategory(models.Model):
