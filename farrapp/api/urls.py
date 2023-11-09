@@ -7,4 +7,6 @@ urlpatterns = [
     path('signup/', views.signup, name="api-signup"),
     path('establishments_list/', views.establishments_list, name="api-establishments-list"),
     path('check_auth/', views.check_auth, name="api-check-auth"),
+    path('update_pref/', views.update_preferences, name="api-update-preferences"),
+    path('delete_user/', views.delete_user, name="api-delete-user")
 ]
