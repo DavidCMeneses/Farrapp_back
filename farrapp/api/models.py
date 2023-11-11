@@ -9,8 +9,8 @@ class Category(models.Model):
 
 
 class Schedule(models.Model):
-    schedule_open = models.TimeField()
-    schedule_close = models.TimeField()
+    open = models.TimeField()
+    close = models.TimeField()
     day = models.CharField(max_length=3)
 
 
@@ -36,7 +36,7 @@ class EstablishmentModel(AbstractCustomUser):
     verified = models.BooleanField()
     playlist_id = models.URLField()
     categories = models.ManyToManyField(Category)
-    schedule = models.ManyToManyField(Schedule)
+    schedules = models.ManyToManyField(Schedule)
 
     class Meta:
         verbose_name = 'Establishment'
