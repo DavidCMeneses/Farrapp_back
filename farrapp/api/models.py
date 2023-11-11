@@ -8,6 +8,12 @@ class Category(models.Model):
     type = models.CharField(max_length=1)
 
 
+class Schedule(models.Model):
+    schedule_open = models.TimeField()
+    schedule_close = models.TimeField()
+    day = models.CharField(max_length=3)
+
+
 class ClientModel(AbstractCustomUser):
     birthday = models.DateField()
     sex = models.CharField(max_length=1)
@@ -30,6 +36,7 @@ class EstablishmentModel(AbstractCustomUser):
     verified = models.BooleanField()
     playlist_id = models.URLField()
     categories = models.ManyToManyField(Category)
+    schedule = models.ManyToManyField(Schedule)
 
     class Meta:
         verbose_name = 'Establishment'
@@ -47,10 +54,6 @@ class UserCategory(models.Model):
     user_id = models.ForeignKey(ClientModel, on_delete=models.CASCADE)
 
 
-class WeekDay(models.Model):
-    name = models.CharField(max_length=15)
-
-
 class Image(models.Model):
     link = models.URLField()
 
@@ -60,11 +63,5 @@ class EstablishmentImg(models.Model):
     image_id = models.ForeignKey(Image, on_delete=models.CASCADE)
     establishment_id = models.ForeignKey(EstablishmentModel, on_delete=models.CASCADE)
 
-
-class EstablishmentSchedule(models.Model):
-    schedule_open = models.TimeField()
-    schedule_close = models.TimeField()
-    day_id = models.ForeignKey(WeekDay, on_delete=models.CASCADE)
-    establishment_id = models.ForeignKey(EstablishmentModel, on_delete=models.CASCADE)
 
 
