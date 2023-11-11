@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from drf_writable_nested import WritableNestedModelSerializer 
 
-from .models import ClientModel, EstablishmentModel, Category, Schedule
+from .models import ClientModel, EstablishmentModel, Category, Schedule, Rating
+
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -36,27 +37,6 @@ class UserSerializer(WritableNestedModelSerializer,
                   ]
         
 
-class UserUpdateInfoSerializer(WritableNestedModelSerializer, 
-                                serializers.ModelSerializer):
-    categories = CategorySerializer(many=True)
-    class Meta:
-        model = ClientModel
-        fields = ['first_name',
-                  'last_name',
-                  "sex",
-                  "categories"
-                  ]
-        
-    def update(self, instance, validated_data):
-        categories_list = validated_data.get('categories')
-        instance.categories.clear()
-        for i in categories_list:
-            category = Category.objects.get_or_create(**i)
-            if category != None :
-                instance.categories.add(category)
-        return instance
-
-
 class EstablishmentSerializer(WritableNestedModelSerializer, 
                               serializers.ModelSerializer):
     categories = CategorySerializer(many=True)
@@ -77,6 +57,10 @@ class EstablishmentSerializer(WritableNestedModelSerializer,
                   "schedules"
                   ]
 
+class RatingSerializer (serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = []
 
 class EstablishmentQuerySerializer(WritableNestedModelSerializer, 
                                    serializers.ModelSerializer):
@@ -95,6 +79,27 @@ class EstablishmentQuerySerializer(WritableNestedModelSerializer,
                   "schedules"
                   ]
         
+
+
+class UserUpdateInfoSerializer(WritableNestedModelSerializer, 
+                                serializers.ModelSerializer):
+    categories = CategorySerializer(many=True)
+    class Meta:
+        model = ClientModel
+        fields = ['first_name',
+                  'last_name',
+                  "sex",
+                  "categories"
+                  ]
+        
+    def update(self, instance, validated_data):
+        categories_list = validated_data.get('categories')
+        instance.categories.clear()
+        for i in categories_list:
+            category = Category.objects.get_or_create(**i)
+            if category != None :
+                instance.categories.add(category)
+        return instance
 
 class EstablishmentUpdateInfoSerializer(WritableNestedModelSerializer, 
                                         serializers.ModelSerializer):
