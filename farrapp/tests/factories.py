@@ -18,7 +18,7 @@ class ScheduleFactory (factory.django.DjangoModelFactory):
     
     open = factory.LazyFunction(lambda: fake.date_time())
     close = factory.LazyFunction(lambda: fake.date_time())
-    day = factory.Sequence(lambda n: "Category %d" % n)
+    day = factory.Sequence(lambda n: "day %d" % n)
 
 class DemoClientFactory(factory.django.DjangoModelFactory):
     class Meta:

@@ -32,7 +32,7 @@ class ClientModelTestCase(TestCase):
                             "type":"M"}
                         ]
             }
-        response = self.client.post('http://127.0.0.1:8000/api/signup/', json.dumps(data), content_type='application/json')
+        response = self.client.post('http://127.0.0.1:8000/api/signup/client/', json.dumps(data), content_type='application/json')
         data = response.json()
         self.token = data.get('token')
         self.username = data.get('username')
@@ -53,9 +53,9 @@ class ClientModelTestCase(TestCase):
                             "type":"M"}
                         ]
             }
-        response = self.client.post('http://127.0.0.1:8000/api/signup/', json.dumps(data), content_type='application/json')
-        data = response.json()
-        assert data.get('error') == 'You must provide a user type'
+            
+        response = self.client.post('http://127.0.0.1:8000/api/signup//', json.dumps(data), content_type='application/json')
+        assert response.status_code==404
 
     def test_signup_wrong_user_type (self):
         data={
@@ -72,7 +72,7 @@ class ClientModelTestCase(TestCase):
                             "type":"M"}
                         ]
             }
-        response = self.client.post('http://127.0.0.1:8000/api/signup/', json.dumps(data), content_type='application/json')
+        response = self.client.post('http://127.0.0.1:8000/api/signup/pepapig/', json.dumps(data), content_type='application/json')
         data = response.json()
         assert data.get('error') == 'User type not found'
 
@@ -85,7 +85,7 @@ class ClientModelTestCase(TestCase):
             "username":self.username,
             "password":self.password
         }
-        response = self.client.post('http://127.0.0.1:8000/api/login/', json.dumps(data), content_type='application/json')
+        response = self.client.post('http://127.0.0.1:8000/api/login/establishment/', json.dumps(data), content_type='application/json')
         assert response.status_code == 404
 
     def test_login_invalid (self):
@@ -94,7 +94,7 @@ class ClientModelTestCase(TestCase):
             "username":self.username,
             "password":"wrongpass"
         }
-        response = self.client.post('http://127.0.0.1:8000/api/login/', json.dumps(data), content_type='application/json')
+        response = self.client.post('http://127.0.0.1:8000/api/login/client/', json.dumps(data), content_type='application/json')
         data = response.json()
         assert data.get('error') == 'Wrong password'
 
@@ -104,7 +104,7 @@ class ClientModelTestCase(TestCase):
             "username":self.username,
             "password":self.password
         }
-        response = self.client.post('http://127.0.0.1:8000/api/login/', json.dumps(data), content_type='application/json')
+        response = self.client.post('http://127.0.0.1:8000/api/login/client/', json.dumps(data), content_type='application/json')
         data = response.json()
 
         assert response.status_code == 200
@@ -122,11 +122,9 @@ class ClientModelTestCase(TestCase):
         for i in range(20):
             rnd_client_data = ClientModelFactory.create()
             serializer_data = UserUpdateInfoSerializer(rnd_client_data).data
-            additional_data = {"user_type":"client"}
-            serializer_data = {**additional_data, **serializer_data}
             json_data = json.dumps(serializer_data)
             headers = {'Authorization': f'Token {self.token}'}
-            response = self.client.put('http://127.0.0.1:8000/api/update_pref/', data=json_data, content_type='application/json', headers=headers)
+            response = self.client.put('http://127.0.0.1:8000/api/update_pref/client/', data=json_data, content_type='application/json', headers=headers)
             cur_user = ClientModel.objects.get(username=self.username)
 
             assert response.status_code==202

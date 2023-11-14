@@ -26,8 +26,8 @@ def search_query (request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
-def login(request):
-    user_type = request.data.get('user_type', None)
+def login(request, user_type):
+    #user_type = request.data.get('user_type', None)
     if user_type is None:
         return Response({'error': 'You must provide a user type'}, status=status.HTTP_404_NOT_FOUND)
     if user_type == 'client':
@@ -45,8 +45,8 @@ def login(request):
 
 
 @api_view(['POST'])
-def signup(request):
-    user_type = request.data.get('user_type', None)
+def signup(request,user_type):
+    #user_type = request.data.get('user_type', None)
     if user_type is None:
         return Response({'error': 'You must provide a user type'}, status=status.HTTP_404_NOT_FOUND)
     if user_type == 'client':
@@ -111,8 +111,8 @@ def rate(request):
 @api_view(['PUT'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def update_preferences(request):
-    user_type = request.data.get('user_type', None)
+def update_preferences(request,user_type):
+    #user_type = request.data.get('user_type', None)
     
     if user_type is None:
         return Response({'error': 'You must provide a user type'}, status=status.HTTP_404_NOT_FOUND)
@@ -127,8 +127,12 @@ def update_preferences(request):
     else:
         return Response({'error': 'User type not found'}, status=status.HTTP_404_NOT_FOUND)
     
+    #print("wenas")
+
     if serializer.is_valid():
+       # print("wenas")
         user = serializer.save()
+       # print("wenas")
         user.save()
 
         return Response(f"Update accepted for user {request.user.username}", status=status.HTTP_202_ACCEPTED)
@@ -138,8 +142,8 @@ def update_preferences(request):
 @api_view(['DELETE'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def delete_user(request):
-    user_type = request.data.get('user_type', None)
+def delete_user(request,user_type):
+    #user_type = request.data.get('user_type', None)
     
     if user_type is None:
         return Response({'error': 'You must provide a user type'}, status=status.HTTP_404_NOT_FOUND)
