@@ -27,7 +27,6 @@ def search_query (request):
 
 @api_view(['POST'])
 def login(request, user_type):
-    #user_type = request.data.get('user_type', None)
     if user_type is None:
         return Response({'error': 'You must provide a user type'}, status=status.HTTP_404_NOT_FOUND)
     if user_type == 'client':
@@ -45,7 +44,8 @@ def login(request, user_type):
 
 
 @api_view(['POST'])
-def signup(request,user_type):
+
+def signup(request, user_type):
     #user_type = request.data.get('user_type', None)
     if user_type is None:
         return Response({'error': 'You must provide a user type'}, status=status.HTTP_404_NOT_FOUND)
