@@ -26,10 +26,7 @@ def search_query (request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
-def login(request):
-    user_type = request.data.get('user_type', None)
-    if user_type is None:
-        return Response({'error': 'You must provide a user type'}, status=status.HTTP_404_NOT_FOUND)
+def login(request, user_type):
     if user_type == 'client':
         user = get_object_or_404(ClientModel, username=request.data['username'])
         serializer = UserSerializer(instance=user)
@@ -45,10 +42,7 @@ def login(request):
 
 
 @api_view(['POST'])
-def signup(request):
-    user_type = request.data.get('user_type', None)
-    if user_type is None:
-        return Response({'error': 'You must provide a user type'}, status=status.HTTP_404_NOT_FOUND)
+def signup(request, user_type):
     if user_type == 'client':
         serializer = UserSerializer(data=request.data)
     elif user_type == 'establishment':
