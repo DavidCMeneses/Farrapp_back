@@ -11,7 +11,7 @@ class Category(models.Model):
 class Schedule(models.Model):
     open = models.TimeField()
     close = models.TimeField()
-    day = models.CharField(max_length=3)
+    day = models.CharField(max_length=10)
 
 
 class ClientModel(AbstractCustomUser):
@@ -31,9 +31,9 @@ class EstablishmentModel(AbstractCustomUser):
     country = models.CharField(max_length=20)
     description = models.CharField(max_length=2000)
     number_of_reviews = models.IntegerField(default=0)
-    overall_rating = models.IntegerField(default=5)
+    overall_rating = models.IntegerField(default=0)
     rut = models.BigIntegerField()
-    verified = models.BooleanField()
+    verified = models.BooleanField(default=False)
     playlist_id = models.URLField()
     categories = models.ManyToManyField(Category)
     schedules = models.ManyToManyField(Schedule)
@@ -45,13 +45,17 @@ class EstablishmentModel(AbstractCustomUser):
 
 class Rating(models.Model):
     stars = models.SmallIntegerField()
-    client_id = models.ForeignKey(ClientModel, on_delete=models.CASCADE)
-    establishment_id = models.ForeignKey(EstablishmentModel, on_delete=models.CASCADE)
+    client = models.ForeignKey(ClientModel, on_delete=models.CASCADE)
+    establishment = models.ForeignKey(EstablishmentModel, on_delete=models.CASCADE)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['client', 'establishment']),
+        ]
 
 class UserCategory(models.Model):
-    category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(ClientModel, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    user = models.ForeignKey(ClientModel, on_delete=models.CASCADE)
 
 
 class Image(models.Model):

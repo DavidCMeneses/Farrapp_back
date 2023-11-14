@@ -1,12 +1,14 @@
 import numpy as np
 from queue import Queue 
 from collections import deque
-from .models import Ej_establishment, Trie, Node_establishment
+from .models import EstablishmentModel
 
 trie = [np.zeros(40, dtype=int)]
 est = [[]]
 
 def idx(c):
+  if c == '.':
+    return 37
   if c==' ':  
     return 36
   if c>='A' and c<='Z':
@@ -34,7 +36,7 @@ def add_establishment (name, id):
       add_trie(name[i:], id)
 
 def search (name):
-  for e in Ej_establishment.objects.all():
+  for e in EstablishmentModel.objects.all():
     add_establishment(e.name, e.pk)
 
   q=deque()
@@ -80,7 +82,5 @@ def search (name):
         lsall.append(e)
         unq.add(e)
   
-  for e in lsall:
-    est_ = Ej_establishment.objects.get(pk=e)
-    print(est_.name)
+  return lsall
   
