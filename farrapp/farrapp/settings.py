@@ -77,8 +77,7 @@ WSGI_APPLICATION = "farrapp.wsgi.application"
 
 # DATABASE RDS
 
-# if 'USER' in os.environ:
-if False:
+if 'USER' in os.environ:
     DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
