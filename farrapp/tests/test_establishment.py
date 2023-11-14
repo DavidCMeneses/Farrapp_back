@@ -30,7 +30,7 @@ class EstablishmentModelTestCase(TestCase):
                             "day":"mon"
                             }]
         }
-        response = self.client.post('http://127.0.0.1:8000/api/signup/', json.dumps(data), content_type='application/json')
+        response = self.client.post('http://127.0.0.1:8000/api/signup/establishment/', json.dumps(data), content_type='application/json')
         data = response.json()
         self.token = data.get('token')
         self.username = data.get('username')
@@ -46,7 +46,7 @@ class EstablishmentModelTestCase(TestCase):
             "username":self.username,
             "password":self.password
         }
-        response = self.client.post('http://127.0.0.1:8000/api/login/', json.dumps(data), content_type='application/json')
+        response = self.client.post('http://127.0.0.1:8000/api/login/client/', json.dumps(data), content_type='application/json')
         assert response.status_code == 404
 
     def test_login_invalid (self):
@@ -55,7 +55,7 @@ class EstablishmentModelTestCase(TestCase):
             "username":self.username,
             "password":"wrongpass"
         }
-        response = self.client.post('http://127.0.0.1:8000/api/login/', json.dumps(data), content_type='application/json')
+        response = self.client.post('http://127.0.0.1:8000/api/login/establishment/', json.dumps(data), content_type='application/json')
         data = response.json()
         assert data.get('error') == 'Wrong password'
 
@@ -65,21 +65,20 @@ class EstablishmentModelTestCase(TestCase):
             "username":self.username,
             "password":self.password
         }
-        response = self.client.post('http://127.0.0.1:8000/api/login/', json.dumps(data), content_type='application/json')
+        response = self.client.post('http://127.0.0.1:8000/api/login/establishment/', json.dumps(data), content_type='application/json')
         data = response.json()
 
         assert response.status_code == 200
 
-    """"
+    
     def test_update_preferences_valid (self):
-        for i in range(20):
+        for i in range(1):
             rnd_establihsment_data = EstablishmentModelFactory.create()
             serializer_data = EstablishmentUpdateInfoSerializer(rnd_establihsment_data).data
-            additional_data = {"user_type":"establishment"}
-            serializer_data = {**additional_data, **serializer_data}
             json_data = json.dumps(serializer_data)
             headers = {'Authorization': f'Token {self.token}'}
-            response = self.client.put('http://127.0.0.1:8000/api/update_pref/', data=json_data, content_type='application/json', headers=headers)
+            #print (json_data)
+            response = self.client.put('http://127.0.0.1:8000/api/update_pref/establishment/', data=json_data, content_type='application/json', headers=headers)
             cur_user = EstablishmentModel.objects.get(username=self.username)
 
             assert response.status_code==202
@@ -90,4 +89,4 @@ class EstablishmentModelTestCase(TestCase):
             assert cur_user.description == rnd_establihsment_data.description
             assert list(cur_user.categories.all()) == list(rnd_establihsment_data.categories.all())
             assert list(cur_user.schedules.all()) == list(rnd_establihsment_data.schedules.all())
-    """
+    

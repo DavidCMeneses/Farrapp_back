@@ -11,7 +11,7 @@ class Category(models.Model):
 class Schedule(models.Model):
     open = models.TimeField()
     close = models.TimeField()
-    day = models.CharField(max_length=10)
+    day = models.CharField(max_length=20)
 
 
 class ClientModel(AbstractCustomUser):

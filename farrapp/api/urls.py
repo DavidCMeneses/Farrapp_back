@@ -8,7 +8,7 @@ urlpatterns = [
     path('search_query/', views.search_query, name = 'search_query'),
     path('establishments_list/', views.establishments_list, name="api-establishments-list"),
     path('check_auth/', views.check_auth, name="api-check-auth"),
-    path('update_pref/', views.update_preferences, name="api-update-preferences"),
-    path('delete_user/', views.delete_user, name="api-delete-user"),
+    path('update_pref/<str:user_type>/', views.update_preferences, name="api-update-preferences"),
+    path('delete_user/<str:user_type>/', views.delete_user, name="api-delete-user"),
     path('rate/', views.rate, name = "api-rate"),
 ]
