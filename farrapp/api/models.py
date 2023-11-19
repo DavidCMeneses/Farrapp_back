@@ -34,7 +34,7 @@ class EstablishmentModel(AbstractCustomUser):
     overall_rating = models.IntegerField(default=0)
     rut = models.BigIntegerField()
     verified = models.BooleanField(default=False)
-    playlist_id = models.URLField()
+    playlist_id = models.CharField(max_length=255)
     categories = models.ManyToManyField(Category)
     schedules = models.ManyToManyField(Schedule)
 
@@ -53,6 +53,7 @@ class Rating(models.Model):
             models.Index(fields=['client', 'establishment']),
         ]
 
+
 class UserCategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     user = models.ForeignKey(ClientModel, on_delete=models.CASCADE)
@@ -66,5 +67,3 @@ class EstablishmentImg(models.Model):
     typ = models.CharField(max_length=10)
     image_id = models.ForeignKey(Image, on_delete=models.CASCADE)
     establishment_id = models.ForeignKey(EstablishmentModel, on_delete=models.CASCADE)
-
-
