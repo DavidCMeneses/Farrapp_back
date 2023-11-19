@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from drf_writable_nested import WritableNestedModelSerializer 
+from drf_writable_nested import WritableNestedModelSerializer
 
 from .models import ClientModel, EstablishmentModel, Category, Schedule, Rating
 
@@ -10,7 +10,8 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['name',
                   'type'
                   ]
-        
+
+
 class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Schedule
@@ -20,9 +21,10 @@ class ScheduleSerializer(serializers.ModelSerializer):
                   ]
 
 
-class UserSerializer(WritableNestedModelSerializer, 
+class UserSerializer(WritableNestedModelSerializer,
                      serializers.ModelSerializer):
     categories = CategorySerializer(many=True)
+
     class Meta:
         model = ClientModel
         fields = ['username',
@@ -34,12 +36,13 @@ class UserSerializer(WritableNestedModelSerializer,
                   "sex",
                   "categories"
                   ]
-        
 
-class EstablishmentSerializer(WritableNestedModelSerializer, 
+
+class EstablishmentSerializer(WritableNestedModelSerializer,
                               serializers.ModelSerializer):
     categories = CategorySerializer(many=True)
     schedules = ScheduleSerializer(many=True)
+
     class Meta:
         model = EstablishmentModel
         fields = ['username',
@@ -53,13 +56,16 @@ class EstablishmentSerializer(WritableNestedModelSerializer,
                   "rut",
                   "verified",
                   "categories",
-                  "schedules"
+                  "schedules",
+                  "playlist_id"
                   ]
 
-class EstablishmentQuerySerializer(WritableNestedModelSerializer, 
+
+class EstablishmentQuerySerializer(WritableNestedModelSerializer,
                                    serializers.ModelSerializer):
     categories = CategorySerializer(many=True)
     schedules = ScheduleSerializer(many=True)
+
     class Meta:
         model = EstablishmentModel
         fields = ["pk",
@@ -73,14 +79,15 @@ class EstablishmentQuerySerializer(WritableNestedModelSerializer,
                   "overall_rating",
                   "number_of_reviews",
                   "categories",
-                  "schedules"
+                  "schedules",
+                  "playlist_id"
                   ]
-        
 
 
-class UserUpdateInfoSerializer(WritableNestedModelSerializer, 
-                                serializers.ModelSerializer):
+class UserUpdateInfoSerializer(WritableNestedModelSerializer,
+                               serializers.ModelSerializer):
     categories = CategorySerializer(many=True)
+
     class Meta:
         model = ClientModel
         fields = ['first_name',
@@ -88,10 +95,10 @@ class UserUpdateInfoSerializer(WritableNestedModelSerializer,
                   "sex",
                   "categories"
                   ]
-        
+
     def update(self, instance, validated_data):
 
-        #print(validated_data)
+        # print(validated_data)
 
         categories_list = validated_data.get('categories')
         instance.categories.clear()
@@ -100,21 +107,23 @@ class UserUpdateInfoSerializer(WritableNestedModelSerializer,
         instance.last_name = validated_data.get('last_name')
         instance.sex = validated_data.get('sex')
 
-        #print (instance.first_name)
-        #print (instance.last_name)
-        #print (instance.sex)
+        # print (instance.first_name)
+        # print (instance.last_name)
+        # print (instance.sex)
 
         for i in categories_list:
             category = Category.objects.get_or_create(**i)
-            #print(category)
-            if category != None :
+            # print(category)
+            if category is not None:
                 instance.categories.add(category[0])
         return instance
 
-class EstablishmentUpdateInfoSerializer(WritableNestedModelSerializer, 
+
+class EstablishmentUpdateInfoSerializer(WritableNestedModelSerializer,
                                         serializers.ModelSerializer):
     categories = CategorySerializer(many=True)
     schedules = ScheduleSerializer(many=True)
+
     class Meta:
         model = EstablishmentModel
         fields = ["name",
@@ -123,30 +132,28 @@ class EstablishmentUpdateInfoSerializer(WritableNestedModelSerializer,
                   "country",
                   "description",
                   "categories",
-                  "schedules"
+                  "schedules",
+                  "playlist_id"
                   ]
-        
+
     def update(self, instance, validated_data):
         categories_list = validated_data.get('categories')
         schedules_list = validated_data.get('schedules')
 
         instance.categories.clear()
         instance.schedules.clear()
-        
+
         instance.name = validated_data.get('name')
         instance.address = validated_data.get('address')
         instance.city = validated_data.get('city')
         instance.country = validated_data.get('country')
         instance.description = validated_data.get('description')
-        
 
         for element in categories_list:
             category = Category.objects.get_or_create(**element)
-            if category != None :
-                instance.categories.add(category[0])
+            instance.categories.add(category[0])
         for element in schedules_list:
             schedule = Schedule.objects.get_or_create(**element)
-            if schedule != None :
-                instance.schedules.add(schedule[0])
-                
+            instance.schedules.add(schedule[0])
+
         return instance
