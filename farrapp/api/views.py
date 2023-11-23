@@ -126,13 +126,9 @@ def update_preferences(request,user_type):
         serializer = EstablishmentUpdateInfoSerializer(obj, data=request.data)
     else:
         return Response({'error': 'User type not found'}, status=status.HTTP_404_NOT_FOUND)
-    
-    #print("wenas")
 
     if serializer.is_valid():
-       # print("wenas")
         user = serializer.save()
-       # print("wenas")
         user.save()
 
         return Response(f"Update accepted for user {request.user.username}", status=status.HTTP_202_ACCEPTED)
