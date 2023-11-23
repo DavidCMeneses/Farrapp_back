@@ -1,4 +1,5 @@
 import smtplib
+import ssl
 
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
@@ -39,14 +40,13 @@ class EmailHandler:
             image_attach.add_header('Content-Disposition', 'inline', filename='imagen.jpg')
             message.attach(image_attach)
 
-        sever = smtplib.SMTP(self.server, self.port)
-        sever.starttls()
+        context = ssl.create_default_context()
 
-        sever.login(self.email, self.password)
-        sever.sendmail(self.email, establishment_email, message.as_string())
-        sever.quit()
+        with smtplib.SMTP_SSL(self.server, self.port, context=context) as stmp:
+            stmp.login(self.email, self.password)
+            stmp.sendmail(self.email, establishment_email, message.as_string())
+
 
 #Para testaear esto se necesita un correo de gmail y su contraseña, el resto debe ser automatico
-
-email = EmailHandler("correo@gmail", "contraseña")
-email.send_email("nombre del establecimiento", "correo del establecimiento", "imagen.jpg")
+email = EmailHandler("farrapp mail", "password as env")
+email.send_email("nombre del establecimiento", "mail@gmail.com", "images/graphic.png")
