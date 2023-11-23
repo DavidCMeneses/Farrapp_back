@@ -53,11 +53,6 @@ class Rating(models.Model):
             models.Index(fields=['client', 'establishment']),
         ]
 
-class UserCategory(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    user = models.ForeignKey(ClientModel, on_delete=models.CASCADE)
-
-
 class Image(models.Model):
     link = models.URLField()
 
