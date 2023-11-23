@@ -47,6 +47,8 @@ class EmailHandler:
             stmp.sendmail(self.email, establishment_email, message.as_string())
 
 
-#Para testaear esto se necesita un correo de gmail y su contraseña, el resto debe ser automatico
-email = EmailHandler("farrapp mail", "password as env")
-email.send_email("nombre del establecimiento", "mail@gmail.com", "images/graphic.png")
+# Para testaear esto se necesita un correo de gmail y su contraseña, el resto debe ser automatico
+
+# example
+# email = EmailHandler("farrapp mail", "password as env")
+# email.send_email("nombre del establecimiento", "mail@gmail.com", "images/graphic.png")
