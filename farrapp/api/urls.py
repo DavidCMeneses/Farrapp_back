@@ -10,5 +10,6 @@ urlpatterns = [
     path('check_auth/', views.check_auth, name="api-check-auth"),
     path('update_pref/<str:user_type>/', views.update_preferences, name="api-update-preferences"),
     path('delete_user/<str:user_type>/', views.delete_user, name="api-delete-user"),
-    path('rate/', views.rate, name = "api-rate"),
+    path('rating/', views.rate, name = "api-rate"),
+    path('establishment_vis/<str:establishment_id>/', views.establishment_vis, name = "establishment_vis"),
 ]

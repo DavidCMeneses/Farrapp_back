@@ -12,6 +12,9 @@ from .serializers import UserSerializer, EstablishmentSerializer, EstablishmentQ
 from .search import search
 
 from django.core.exceptions import ObjectDoesNotExist
+import json
+
+
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
@@ -87,6 +90,14 @@ def filter_sort(request):
     queryset = EstablishmentModel.objects.all()
     serializer = EstablishmentQuerySerializer(queryset, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def establishment_vis (request, establishment_id):
+    establishment = EstablishmentModel.objects.get(pk = establishment_id)
+    serializer = EstablishmentQuerySerializer(establishment)
+    json_data = json.dumps()
 
 @api_view(['PUT'])
 @authentication_classes([TokenAuthentication])

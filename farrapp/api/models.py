@@ -43,6 +43,15 @@ class EstablishmentModel(AbstractCustomUser):
         verbose_name_plural = 'Establishments'
 
 
+class Visualizations(models.Model):
+    client = models.ForeignKey(ClientModel, on_delete=models.CASCADE)
+    establishment = models.ForeignKey(EstablishmentModel, on_delete=models.CASCADE)
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['client', 'establishment']),
+        ]
+
 class Rating(models.Model):
     stars = models.SmallIntegerField()
     client = models.ForeignKey(ClientModel, on_delete=models.CASCADE)
