@@ -146,6 +146,8 @@ class EstablishmentUpdateInfoSerializer(WritableNestedModelSerializer,
         instance.city = validated_data.get('city')
         instance.country = validated_data.get('country')
         instance.description = validated_data.get('description')
+        instance.playlist_id = validated_data.get('playlist_id')
+        instance.image_url = validated_data.get('image_url')
 
         for element in categories_list:
             category = Category.objects.get_or_create(**element)
