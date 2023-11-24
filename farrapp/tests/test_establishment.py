@@ -13,23 +13,38 @@ class EstablishmentModelTestCase(TestCase):
         self.client = Client()
         data={
             "user_type":"establishment",
-            "username":"Portal 8000",
-            "email": "example@as.com011112",
+            "username":"user001",
+            "email": "email001@gmail.com",
             "password":"pass",
-            "name": "farrapp",
-            "address":"su ",
+            "name": "theatron",
+            "address":"la esquina de las divinas",
             "city": "bogota",
             "country": "China",
             "description": "Lugar donde puedes tomar ¿qué esperabas?",
             "rut": 11111,
             "verified": "false",
-            "categories": [{"name":"rock",
-                            "type":"M"}],
-            "schedules": [{"open":"7:30:59",
-                            "close":"21:30:20",
-                            "day":"mon"
-                            }]
-        }
+            "image_url": "jijijaja.com",
+            "playlist_id": "https://open.spotify.com/playlist/37i9dQZF1DWSpF87bP6JSF",
+            "categories": [{"name":"reggaeton",
+                            "type":"M"},
+			   {"name":"bachata",
+                            "type":"M"},
+			   {"name":"denbow",
+                            "type":"M"}, 
+			   {"name":"bar gay",
+                            "type":"E"}, 
+			   {"name":"club de baile",
+                            "type":"E"},
+			   {"name":"bar",
+                            "type":"E"}],
+            "schedules": [{"open":"20:30:00",
+                            "close":"03:00:00",
+                            "day":"friday"
+                            },
+			  {"open":"21:00:00",
+			   "close":"04:30:00",
+		  	   "day":"saturday"}]
+            }
         response = self.client.post('http://127.0.0.1:8000/api/signup/establishment/', json.dumps(data), content_type='application/json')
         data = response.json()
         self.token = data.get('token')

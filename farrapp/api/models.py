@@ -37,7 +37,7 @@ class EstablishmentModel(AbstractCustomUser):
     playlist_id = models.CharField(max_length=255)
     categories = models.ManyToManyField(Category)
     schedules = models.ManyToManyField(Schedule)
-    image_url = models.URLField()
+    image_url = models.CharField(max_length=255)
 
     class Meta:
         verbose_name = 'Establishment'
@@ -47,7 +47,7 @@ class EstablishmentModel(AbstractCustomUser):
 class Visualizations(models.Model):
     client = models.ForeignKey(ClientModel, on_delete=models.CASCADE)
     establishment = models.ForeignKey(EstablishmentModel, on_delete=models.CASCADE)
-    
+
     class Meta:
         indexes = [
             models.Index(fields=['client', 'establishment']),

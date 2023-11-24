@@ -35,7 +35,8 @@ def add_establishment (name, id):
     if i > 0 and name[i-1] == ' ':
       add_trie(name[i:], id)
 
-def search (name):
+def search_est (name):
+  print("woli")
   for e in EstablishmentModel.objects.all():
     add_establishment(e.name, e.pk)
 

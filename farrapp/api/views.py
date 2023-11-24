@@ -9,10 +9,12 @@ from .Conejito_Auth import CustomToken, TokenAuthentication
 from .models import ClientModel, EstablishmentModel, Rating, Category
 from .serializers import UserSerializer, EstablishmentSerializer, EstablishmentQuerySerializer, UserUpdateInfoSerializer, EstablishmentUpdateInfoSerializer
 
-from .search import search
+from .search import search_est
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+import json
 
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
@@ -77,16 +79,22 @@ def establishments_list(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def search (request, page):
-    name = request.GET['query']
-    music = list(request.GET['filter_music'].split('|'))
-    type_est = list(request.GET['establishment_filter'].split('|'))
-    flag = request.GET['flag']
-
+    
     if page == 1:
-        if flag == True:
+        name = request.GET['query']
+        music = list(request.GET['filter_music'].split('|'))
+        if request.GET['filter_music'] == '':
+            music = []
+        type_est = list(request.GET['establishment_filter'].split('|'))
+        if request.GET['establishment_filter'] == '':
+            type_est = []
+        flag = request.GET['flag']
+
+        if flag == "True":
             music=[]
             type_est=[]
             client_r = ClientModel.objects.get(username = request.user.username)
+            print (client_r.username)
             for category in client_r.categories.all():
                 if category.type == 'M':
                     music.append(category.name)
@@ -95,43 +103,47 @@ def search (request, page):
 
         #if music or type_est is not especified take all objects
         if len(music) == 0:
+            music=[]
             for i in Category.objects.all():
                 if i.type == 'M':
                     music.append(i.name)
         if len(type_est) == 0:
+            type_est=[]
             for i in Category.objects.all():
                 if i.type == 'E':
                     type_est.append(i.name)
 
-        print(music)
-        print(type_est)
-
-        query_set = []
+        matched_establishments = []
         if len(name) > 0:
-            matched_establishments = search(name)
-            for i in matched_establishments:
-                query_set.append(EstablishmentModel.objects.get(pk = i))
+            matched_establishments = search_est(name)
         else:
-            query_set = EstablishmentModel.objects.all()
-        
+            for i in EstablishmentModel.objects.all():
+                matched_establishments.append(i.pk)
+
         match_establishment_category = [dict(), dict()]
 
         for i in music:
-            establishment_music_i = query_set.filter(categories__name = i)
+            establishment_music_i = EstablishmentModel.objects.filter(categories__name = i)
             for establishment in establishment_music_i:
-                if len(match_establishment_category[0][establishment.pk]) < 1:
-                    match_establishment_category[0][establishment.pk].append(i)
+                match_establishment_category[0].setdefault(establishment.pk, i)
 
         for i in type_est:
-            establishment_type_est_i = query_set.filter(categories__name = i)
+            establishment_type_est_i = EstablishmentModel.objects.filter(categories__name = i)
             for establishment in establishment_type_est_i:
-                if len(match_establishment_category[1][establishment.pk]) < 1:
-                    match_establishment_category[1][establishment.pk].append(i)
+                match_establishment_category[1].setdefault(establishment.pk, i)
 
         pagin_results = []
-        for cur_establishment in query_set:
-            if len(name) == 0 or len(match_establishment_category[0][cur_establishment.pk]) > 0 or len(match_establishment_category[1][cur_establishment.pk]) > 0:
-                string_preferences = match_establishment_category[0][cur_establishment.pk][0] + ',' + match_establishment_category[1][cur_establishment.pk][0]
+        for est in matched_establishments:
+            cur_establishment = EstablishmentModel.objects.get(pk = est)
+            if cur_establishment.pk in match_establishment_category[0] or cur_establishment.pk in match_establishment_category[1]:
+                string_preferences = ''
+                if cur_establishment.pk in match_establishment_category[0]:
+                    string_preferences = string_preferences + match_establishment_category[0][cur_establishment.pk]
+                if cur_establishment.pk in match_establishment_category[1]:
+                    if string_preferences != '':
+                        string_preferences = string_preferences + ', '
+                    string_preferences = string_preferences + match_establishment_category[1][cur_establishment.pk]
+
                 rating = 5
                 if cur_establishment.number_of_reviews > 0:
                     rating = cur_establishment.overall_rating/cur_establishment.number_of_reviews
@@ -146,7 +158,6 @@ def search (request, page):
 
                     playlist_link = cur_establishment.playlist_id
                     playlist_URI = playlist_link.split("/")[-1].split("?")[0]
-                    playlist_name = sp.playlist(playlist_id=playlist_URI, fields="name")["name"]
 
                 except:
                     return Response({'error': 'Invalid playlist'}, status=status.HTTP_404_NOT_FOUND)
@@ -156,6 +167,7 @@ def search (request, page):
                 track_id = tracks[0]["track"]["preview_url"]
                 artist_name = tracks[0]["track"]["artists"][0]["name"]  
                 song = {"track_name":track_name, "track_url":track_id, "artist_name":artist_name}
+
                 pagin_results.append({"name":cur_establishment.name,
                                       "id":cur_establishment.pk,
                                       "address":cur_establishment.address,
@@ -165,19 +177,22 @@ def search (request, page):
                                       "image_url":cur_establishment.image_url, 
                                       "song":song})
         
-        request.session['results_search'] = list(pagin_results)
-        request.session['paginator'] = Paginator(request.session['results_search'], 7)
+        
+        request.session['pagin_results'] = pagin_results
 
-    
+    num_pa = 1
+    tot_results = len(request.session['pagin_results']) 
+    npages = (tot_results + num_pa - 1) // num_pa
     results = []
     try:
-        results = request.session['paginator'].page(page)
+        results = request.session['pagin_results'][(page - 1) * num_pa : min(tot_results, page * num_pa)]
     except PageNotAnInteger:
         return Response({'error':'page requested is not integer'},status=status.HTTP_400_BAD_REQUEST)
     except EmptyPage:
-        results = request.session['paginator'].page(request.session['paginator'].num_pages)
+        return Response({'error':'page requested is out of range'},status=status.HTTP_400_BAD_REQUEST)
     
-    data_to_return = {'pages':request.session['paginator'].num_pages, 'results':results}
+    data_to_return = {'pages':npages, 'results':results}
+
     return Response(data_to_return, status=status.HTTP_200_OK)
 
 
