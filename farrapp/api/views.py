@@ -89,6 +89,7 @@ def search (request, page):
         if request.GET['establishment_filter'] == '':
             type_est = []
         flag = request.GET['flag']
+        sort_param = request.GET['sorted_by']
 
         if flag == "True":
             music=[]
@@ -177,7 +178,12 @@ def search (request, page):
                                       "image_url":cur_establishment.image_url, 
                                       "song":song})
         
-        
+        if len(name) == 0:
+            if sort_param == "rating":
+                pagin_results = sorted(pagin_results, key = lambda x: x['rating'], reverse = True)
+            elif sort_param == "asc" or sort_param == "desc":
+                pagin_results = sorted(pagin_results, key = lambda x: x['name'], reverse = (sort_param == "desc"))
+                
         request.session['pagin_results'] = pagin_results
 
     num_pa = 1
