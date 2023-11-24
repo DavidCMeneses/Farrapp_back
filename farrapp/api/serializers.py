@@ -58,6 +58,7 @@ class EstablishmentSerializer(WritableNestedModelSerializer,
                   "categories",
                   "schedules",
                   "playlist_id"
+                  "image_url"
                   ]
 
 
@@ -80,7 +81,8 @@ class EstablishmentQuerySerializer(WritableNestedModelSerializer,
                   "number_of_reviews",
                   "categories",
                   "schedules",
-                  "playlist_id"
+                  "playlist_id",
+                  "image_url"
                   ]
 
 
@@ -107,13 +109,8 @@ class UserUpdateInfoSerializer(WritableNestedModelSerializer,
         instance.last_name = validated_data.get('last_name')
         instance.sex = validated_data.get('sex')
 
-        # print (instance.first_name)
-        # print (instance.last_name)
-        # print (instance.sex)
-
         for i in categories_list:
             category = Category.objects.get_or_create(**i)
-            # print(category)
             if category is not None:
                 instance.categories.add(category[0])
         return instance
@@ -133,7 +130,8 @@ class EstablishmentUpdateInfoSerializer(WritableNestedModelSerializer,
                   "description",
                   "categories",
                   "schedules",
-                  "playlist_id"
+                  "playlist_id",
+                  "image_url"
                   ]
 
     def update(self, instance, validated_data):

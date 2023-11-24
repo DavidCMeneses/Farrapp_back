@@ -37,6 +37,7 @@ class EstablishmentModel(AbstractCustomUser):
     playlist_id = models.CharField(max_length=255)
     categories = models.ManyToManyField(Category)
     schedules = models.ManyToManyField(Schedule)
+    image_url = models.URLField()
 
     class Meta:
         verbose_name = 'Establishment'
