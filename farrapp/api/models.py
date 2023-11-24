@@ -7,6 +7,11 @@ class Category(models.Model):
     name = models.CharField(max_length=50)
     type = models.CharField(max_length=1)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['name']) 
+        ]
+
 
 class Schedule(models.Model):
     open = models.TimeField()
