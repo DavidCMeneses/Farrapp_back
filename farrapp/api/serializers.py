@@ -157,3 +157,21 @@ class EstablishmentUpdateInfoSerializer(WritableNestedModelSerializer,
             instance.schedules.add(schedule[0])
 
         return instance
+
+class EstablishmentInfoSerializer(WritableNestedModelSerializer,
+                                        serializers.ModelSerializer):
+    categories = CategorySerializer(many=True)
+    schedules = ScheduleSerializer(many=True)
+
+    class Meta:
+        model = EstablishmentModel
+        fields = ["pk",
+                  "name",
+                  "address",
+                  "city",
+                  "country",
+                  "description",
+                  "categories",
+                  "schedules",
+                  "playlist_id"
+                  ]
