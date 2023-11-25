@@ -35,7 +35,8 @@ def add_establishment (name, id):
     if i > 0 and name[i-1] == ' ':
       add_trie(name[i:], id)
 
-def search (name):
+def search_est (name):
+  print("woli")
   for e in EstablishmentModel.objects.all():
     add_establishment(e.name, e.pk)
 
@@ -58,7 +59,7 @@ def search (name):
         q.append(nu)
       
       if trie[u[0]][idx(name[u[1]])] > 0:
-        nu = [trie[u[0]][idx(name[u[1]])], u[1]+1, u[2]];
+        nu = [trie[u[0]][idx(name[u[1]])], u[1]+1, u[2]]
         if (nu[0],nu[1]) not in visi and nu[2]<3:
             visi.add((nu[0],nu[1]))
             q.appendleft(nu)
