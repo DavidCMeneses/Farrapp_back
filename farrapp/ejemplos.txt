@@ -229,7 +229,8 @@ CLIENTSSSSS
                             "type":"E"}
                         ]
 }
-
+"token": "a235c40764c214e9f80f3d7430f4451ed50e0515",
+    "username": "user010"
 
 {
             "user_type":"client",
@@ -252,3 +253,5 @@ CLIENTSSSSS
                         ]
 }
 
+"token": "71f3fe5d3b27a9f337d8229878785a544eece0c8",
+    "username": "user011"
