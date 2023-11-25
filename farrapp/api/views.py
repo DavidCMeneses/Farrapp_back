@@ -7,11 +7,16 @@ from rest_framework.response import Response
 
 from .Conejito_Auth import CustomToken, TokenAuthentication
 from .models import ClientModel, EstablishmentModel, Rating
-from .serializers import UserSerializer, EstablishmentSerializer, EstablishmentQuerySerializer, UserUpdateInfoSerializer, EstablishmentUpdateInfoSerializer
+from .serializers import UserSerializer, EstablishmentSerializer, EstablishmentQuerySerializer, UserUpdateInfoSerializer, EstablishmentUpdateInfoSerializer, EstablishmentInfoSerializer
 
 from .search import search
 
 from django.core.exceptions import ObjectDoesNotExist
+
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+
+import json
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
@@ -157,4 +162,57 @@ def delete_user(request,user_type):
         return Response({'error': 'User type not found'}, status=status.HTTP_404_NOT_FOUND)
     
     return Response(f"Delete accepted for user {request.user.username}", status=status.HTTP_202_ACCEPTED)
-    
+
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def fetch_establishment_info(request, establishment_id):
+    establishment = EstablishmentModel.objects.get(pk = establishment_id)
+
+    try:
+        #Authentication - without user
+        cid = "2ef223faabe64814b14d1721068497f9"
+        secret = "fcfdd55785b34f859e1e418f2c0d21ae"
+
+        client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
+        sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
+
+        playlist_link = establishment.playlist_id
+        playlist_URI = playlist_link.split("/")[-1].split("?")[0]
+        playlist_name = sp.playlist(playlist_id=playlist_URI, fields="name")["name"]
+
+    except:
+        return Response({'error': 'Invalid playlist'}, status=status.HTTP_404_NOT_FOUND)
+
+    #Json package
+    serializer = EstablishmentInfoSerializer(establishment)
+
+    #Rating
+    if establishment.number_of_reviews != 0:
+        rating = establishment.overall_rating/establishment.number_of_reviews
+    else: 
+        rating = 5
+
+    track_list = {"playlist_name": playlist_name, "tracks":[], "rating": rating} 
+    tracks = sp.playlist_tracks(playlist_URI)["items"]
+
+    for i in range(0,min(5,len(tracks))):
+        track = tracks[i]
+
+        #Track name
+        track_name = track["track"]["name"]
+
+        #Track id
+        track_id = track["track"]["preview_url"]
+        
+        #Artist name
+        artist_name = track["track"]["artists"][0]["name"]
+
+        temp_dict = {"track_name": track_name, "track_url": track_id, "artist_name": artist_name}
+        track_list["tracks"].append(temp_dict)
+
+
+    track_list.update(serializer.data)
+    return Response(track_list, status=status.HTTP_202_ACCEPTED)
+
