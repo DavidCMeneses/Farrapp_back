@@ -201,5 +201,6 @@ class EstablishmentInfoSerializer(WritableNestedModelSerializer,
                   "description",
                   "categories",
                   "schedules",
-                  "playlist_id"
+                  "playlist_id",
+                  "image_url"
                   ]
