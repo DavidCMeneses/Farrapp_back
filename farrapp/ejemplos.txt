@@ -229,7 +229,7 @@ CLIENTSSSSS
                             "type":"E"}
                         ]
 }
-"token": "a235c40764c214e9f80f3d7430f4451ed50e0515",
+"token": "1a29c49dbd697f133cf186b2e010d30b6fe73cfd",
     "username": "user010"
 
 {

@@ -34,7 +34,7 @@ def login(request, user_type):
     if not user.check_password(request.data['password']):
         return Response({'error': 'Wrong password'}, status=status.HTTP_404_NOT_FOUND)
     token, created = CustomToken.objects.get_or_create(user=user)
-    return Response({'token': token.key, "username": serializer.data["username"]}, status=status.HTTP_200_OK)
+    return Response({'token': token.key, "username": serializer.data["username"], "id": serializer.data["id"]}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -55,7 +55,7 @@ def signup(request, user_type):
         user.set_password(request.data['password'])
         user.save()
         token = CustomToken.objects.create(user=user)
-        return Response({'token': token.key, "username": serializer.data["username"]}, status=status.HTTP_201_CREATED)
+        return Response({'token': token.key, "username": serializer.data["username"], "id":serializer.data["pk"]}, status=status.HTTP_201_CREATED)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
