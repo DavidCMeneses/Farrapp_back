@@ -27,7 +27,8 @@ class UserSerializer(WritableNestedModelSerializer,
 
     class Meta:
         model = ClientModel
-        fields = ['username',
+        fields = ['pk',
+                  'username',
                   'email',
                   'password',
                   'first_name',
@@ -56,7 +57,8 @@ class EstablishmentSerializer(WritableNestedModelSerializer,
 
     class Meta:
         model = EstablishmentModel
-        fields = ['username',
+        fields = ['pk',
+                  'username',
                   'email',
                   'password',
                   "name",
