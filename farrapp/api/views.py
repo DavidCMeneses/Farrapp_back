@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
+from datetime import datetime
 from .Conejito_Auth import CustomToken, TokenAuthentication
 from .models import ClientModel, EstablishmentModel, Rating, Category, Visualizations
 from .serializers import UserSerializer, EstablishmentSerializer, EstablishmentQuerySerializer, UserUpdateInfoSerializer, EstablishmentUpdateInfoSerializer, EstablishmentInfoSerializer
@@ -342,3 +342,18 @@ def fetch_establishment_info(request, establishment_id):
     track_list.update(serializer.data)
     return Response(track_list, status=status.HTTP_202_ACCEPTED)
 
+@api_view(['GET'])
+def stats(request):
+    ans_list = []
+    for i in Visualizations.objects.all():
+        today = datetime.today()
+        age = today.year - i.client.birthday.year - ((today.month, today.day) < (i.client.birthday.month, i.client.birthday.day))
+        list_temp = [i.establishment.pk, i.client.sex,age]
+        category_list = []
+        for j in i.client.categories.all():
+            category_list.append(j.name)
+            category_list.append(j.type)
+        list_temp.append(category_list)
+        ans_list.append(list_temp)
+    print(ans_list)
+    return Response({"ok":"ok"},status=status.HTTP_202_ACCEPTED)
