@@ -155,8 +155,8 @@ def search (request, page):
                 
                 try:
                     #Authentication - without user
-                    cid = "2ef223faabe64814b14d1721068497f9"
-                    secret = "fcfdd55785b34f859e1e418f2c0d21ae"
+                    cid = os.getenv('CID_farrapp')
+                    secret = os.getenv('SECRET_farrapp')
 
                     client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
                     sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
