@@ -59,7 +59,7 @@ ESTABLISHMENTS
 			   {"name":"bar internacional",
                             "type":"E"}, 
 			   {"name":"bar de los 80",
-                            "type":"E"}]
+                            "type":"E"}],
             "schedules": [{"open":"20:30:00",
                             "close":"03:00:00",
                             "day":"friday"

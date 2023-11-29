@@ -79,11 +79,11 @@ def establishments_list(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def search (request, page):
-    
+def search(request, page):
     if page == 1:
         name = request.GET['query']
         music = list(request.GET['filter_music'].split('|'))
@@ -96,100 +96,110 @@ def search (request, page):
         sort_param = request.GET['sorted_by']
 
         if flag == "True":
-            music=[]
-            type_est=[]
-            client_r = ClientModel.objects.get(username = request.user.username)
-            print (client_r.username)
+            music = []
+            type_est = []
+            client_r = ClientModel.objects.get(username=request.user.username)
+            print(client_r.username)
             for category in client_r.categories.all():
                 if category.type == 'M':
                     music.append(category.name)
                 if category.type == 'E':
                     type_est.append(category.name)
 
-        #if music or type_est is not especified take all objects
+        # if music or type_est is not especified take all objects
         if len(music) == 0:
-            music=[]
+            music = []
             for i in Category.objects.all():
                 if i.type == 'M':
                     music.append(i.name)
         if len(type_est) == 0:
-            type_est=[]
+            type_est = []
             for i in Category.objects.all():
                 if i.type == 'E':
                     type_est.append(i.name)
 
-        matched_establishments = []
         if len(name) > 0:
-            matched_establishments = search_est(name)
+            matched_list = search_est(name)
+            matched_establishments = EstablishmentModel.objects.filter(pk__in=matched_list).prefetch_related("categories")
+            position_map = {pk: pos for pos, pk in enumerate(matched_list)}
+
+            matched_establishments = sorted(
+                matched_establishments,
+                key=lambda obj: position_map[obj.pk]  
+            )
+            
         else:
-            for i in EstablishmentModel.objects.all():
-                matched_establishments.append(i.pk)
+            mixx = music + type_est
+            matched_establishments = EstablishmentModel.objects.filter(categories__name__in=mixx).prefetch_related("categories").distinct()
 
-        match_establishment_category = [dict(), dict()]
-
-        for i in music:
-            establishment_music_i = EstablishmentModel.objects.filter(categories__name = i)
-            for establishment in establishment_music_i:
-                match_establishment_category[0].setdefault(establishment.pk, i)
-
-        for i in type_est:
-            establishment_type_est_i = EstablishmentModel.objects.filter(categories__name = i)
-            for establishment in establishment_type_est_i:
-                match_establishment_category[1].setdefault(establishment.pk, i)
-
+            #print (matched_establishments)
         
+        music_set = set(music)
+        type_est_set = set(type_est)
+
+        #return Response({'al toque':'mi rey'}, status=status.HTTP_200_OK)
 
         pagin_results = []
-        for est in matched_establishments:
-            cur_establishment = EstablishmentModel.objects.get(pk = est)
-            if cur_establishment.pk in match_establishment_category[0] or cur_establishment.pk in match_establishment_category[1]:
-                string_preferences = ''
-                if cur_establishment.pk in match_establishment_category[0]:
-                    string_preferences = string_preferences + match_establishment_category[0][cur_establishment.pk]
-                if cur_establishment.pk in match_establishment_category[1]:
+        for cur_establishment in matched_establishments:
+            string_preferences = ''
+            
+            
+            for cat in cur_establishment.categories.all():
+                if cat.name in music_set:
+                    string_preferences = string_preferences + cat.name
+                    break
+            for cat in cur_establishment.categories.all():
+                if cat.name in type_est_set:
                     if string_preferences != '':
                         string_preferences = string_preferences + ', '
-                    string_preferences = string_preferences + match_establishment_category[1][cur_establishment.pk]
+                    string_preferences = string_preferences + cat.name
+                    break
+            
+            
+            rating = 5
+            if cur_establishment.number_of_reviews > 0:
+                rating = cur_establishment.overall_rating/cur_establishment.number_of_reviews
+            
+            '''
+                rating = cur_establishment.overall_rating / cur_establishment.number_of_reviews
 
-                rating = 5
-                if cur_establishment.number_of_reviews > 0:
-                    rating = cur_establishment.overall_rating/cur_establishment.number_of_reviews
-                
-                '''
-                try:
-                    #Authentication - without user
-                    cid = os.getenv('CID_farrapp')
-                    secret = os.getenv('SECRET_farrapp')
+            try:
+                # Authentication - without user
+                cid = os.getenv('CID_farrapp')
+                secret = os.getenv('SECRET_farrapp')
 
-                    client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
-                    sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
+                client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
+                sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
-                    playlist_link = cur_establishment.playlist_id
-                    playlist_URI = playlist_link.split("/")[-1].split("?")[0]
+                playlist_link = cur_establishment.playlist_id
+                playlist_URI = playlist_link.split("/")[-1].split("?")[0]
 
-                except:
-                    return Response({'error': 'Invalid playlist'}, status=status.HTTP_404_NOT_FOUND)
+            except:
+                return Response({'error': 'Invalid playlist'}, status=status.HTTP_404_NOT_FOUND)
 
-                tracks = sp.playlist_tracks(playlist_URI)["items"]
-                track_name = tracks[0]["track"]["name"]
-                track_id = tracks[0]["track"]["preview_url"]
-                artist_name = tracks[0]["track"]["artists"][0]["name"]  
-                song = {"track_name":track_name, "track_url":track_id, "artist_name":artist_name}
-                '''
+            tracks = sp.playlist_tracks(playlist_URI)["items"]
+            track_name = tracks[0]["track"]["name"]
+            track_id = tracks[0]["track"]["preview_url"]
 
-                pagin_results.append({"name":cur_establishment.name,
-                                      "id":cur_establishment.pk,
-                                      "address":cur_establishment.address,
-                                      "city":cur_establishment.city,
-                                      "preferences":string_preferences,
-                                      "rating":rating, 
-                                      "image_url":cur_establishment.image_url})
+            artist_name = tracks[0]["track"]["artists"][0]["name"]  
+            song = {"track_name":track_name, "track_url":track_id, "artist_name":artist_name}
+            '''
+
+            pagin_results.append({"name":cur_establishment.name,
+                                    "id":cur_establishment.pk,
+                                    "address":cur_establishment.address,
+                                    "city":cur_establishment.city,
+                                    "preferences":string_preferences,
+                                    "rating":rating, 
+                                    "image_url":cur_establishment.image_url})
+
 
 
         if len(name) == 0:
             if sort_param == "rating":
-                pagin_results = sorted(pagin_results, key = lambda x: x['rating'], reverse = True)
+                pagin_results = sorted(pagin_results, key=lambda x: x['rating'], reverse=True)
             elif sort_param == "asc" or sort_param == "desc":
+
                 pagin_results = sorted(pagin_results, key = lambda x: x['name'], reverse = (sort_param == "desc"))
                 
         
@@ -197,19 +207,19 @@ def search (request, page):
 
     num_pa = 5
     tot_results = len(request.session['pagin_results']) 
+
     npages = (tot_results + num_pa - 1) // num_pa
     results = []
     try:
-        results = request.session['pagin_results'][(page - 1) * num_pa : min(tot_results, page * num_pa)]
+        results = request.session['pagin_results'][(page - 1) * num_pa: min(tot_results, page * num_pa)]
     except PageNotAnInteger:
-        return Response({'error':'page requested is not integer'},status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'page requested is not integer'}, status=status.HTTP_400_BAD_REQUEST)
     except EmptyPage:
-        return Response({'error':'page requested is out of range'},status=status.HTTP_400_BAD_REQUEST)
-    
-    data_to_return = {'pages':npages, 'results':results}
+        return Response({'error': 'page requested is out of range'}, status=status.HTTP_400_BAD_REQUEST)
+
+    data_to_return = {'pages': npages, 'results': results}
 
     return Response(data_to_return, status=status.HTTP_200_OK)
-
 
 @api_view(['PUT'])
 @authentication_classes([TokenAuthentication])
