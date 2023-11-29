@@ -138,6 +138,8 @@ def search(request, page):
             for establishment in establishment_type_est_i:
                 match_establishment_category[1].setdefault(establishment.pk, i)
 
+        
+
         pagin_results = []
         for est in matched_establishments:
             cur_establishment = EstablishmentModel.objects.get(pk=est)
@@ -153,7 +155,13 @@ def search(request, page):
 
                 rating = 5
                 if cur_establishment.number_of_reviews > 0:
+
+                    rating = cur_establishment.overall_rating/cur_establishment.number_of_reviews
+                
+                '''
+
                     rating = cur_establishment.overall_rating / cur_establishment.number_of_reviews
+
 
                 try:
                     # Authentication - without user
@@ -172,28 +180,33 @@ def search(request, page):
                 tracks = sp.playlist_tracks(playlist_URI)["items"]
                 track_name = tracks[0]["track"]["name"]
                 track_id = tracks[0]["track"]["preview_url"]
-                artist_name = tracks[0]["track"]["artists"][0]["name"]
-                song = {"track_name": track_name, "track_url": track_id, "artist_name": artist_name}
 
-                pagin_results.append({"name": cur_establishment.name,
-                                      "id": cur_establishment.pk,
-                                      "address": cur_establishment.address,
-                                      "city": cur_establishment.city,
-                                      "preferences": string_preferences,
-                                      "rating": rating,
-                                      "image_url": cur_establishment.image_url,
-                                      "song": song})
+                artist_name = tracks[0]["track"]["artists"][0]["name"]  
+                song = {"track_name":track_name, "track_url":track_id, "artist_name":artist_name}
+                '''
+
+                pagin_results.append({"name":cur_establishment.name,
+                                      "id":cur_establishment.pk,
+                                      "address":cur_establishment.address,
+                                      "city":cur_establishment.city,
+                                      "preferences":string_preferences,
+                                      "rating":rating, 
+                                      "image_url":cur_establishment.image_url})
+
 
         if len(name) == 0:
             if sort_param == "rating":
                 pagin_results = sorted(pagin_results, key=lambda x: x['rating'], reverse=True)
             elif sort_param == "asc" or sort_param == "desc":
-                pagin_results = sorted(pagin_results, key=lambda x: x['name'], reverse=(sort_param == "desc"))
 
+                pagin_results = sorted(pagin_results, key = lambda x: x['name'], reverse = (sort_param == "desc"))
+                
+        
         request.session['pagin_results'] = pagin_results
 
-    num_pa = 1
-    tot_results = len(request.session['pagin_results'])
+    num_pa = 5
+    tot_results = len(request.session['pagin_results']) 
+
     npages = (tot_results + num_pa - 1) // num_pa
     results = []
     try:
