@@ -12,7 +12,7 @@ urlpatterns = [
     path('delete_user/<str:user_type>/', views.delete_user, name="api-delete-user"),
     path('rate/', views.rate, name="api-rate"),
     path('fetch_info/<str:establishment_id>', views.fetch_establishment_info, name="api-fetch-info"),
-    path('stats/', views.stats, name='api-stats'),
+    path('stats/<str:establishment_id>', views.stats, name='api-stats'),
     path('user_info/<str:user_type>/', views.fetch_self_data, name='api-stats')
 
 ]
