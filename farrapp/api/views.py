@@ -19,6 +19,10 @@ import json
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
+import os
+from dotenv import dotenv_values,load_dotenv
+
+
 @api_view(['POST'])
 def login(request, user_type):
     if user_type is None:
@@ -273,15 +277,21 @@ def delete_user(request,user_type):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def fetch_establishment_info(request, establishment_id):
-    establishment = EstablishmentModel.objects.get(pk = establishment_id)
+    
+
+    try:
+        establishment = EstablishmentModel.objects.get(pk = establishment_id)
+    except ObjectDoesNotExist:
+        return Response({'error':'invalid id'}, status=status.HTTP_404_NOT_FOUND)
+
     client_r = ClientModel.objects.get(username = request.user.username)
 
     Visualizations.objects.get_or_create(client = client_r, establishment = establishment)
 
     try:
         #Authentication - without user
-        cid = "2ef223faabe64814b14d1721068497f9"
-        secret = "fcfdd55785b34f859e1e418f2c0d21ae"
+        cid = os.getenv('CID_farrapp')
+        secret = os.getenv('SECRET_farrapp')
 
         client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
         sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
