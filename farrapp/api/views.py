@@ -12,10 +12,10 @@ from .serializers import UserSerializer, EstablishmentSerializer, EstablishmentQ
 
 from .search import search_est
 
+from .stats import xlsx_maker, send_email_w_attachment
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-import json
 
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
@@ -324,7 +324,15 @@ def fetch_establishment_info(request, establishment_id):
         playlist_name = sp.playlist(playlist_id=playlist_URI, fields="name")["name"]
 
     except:
-        return Response({'error': 'Invalid playlist'}, status=status.HTTP_404_NOT_FOUND)
+        cid = os.getenv('CID_farrapp')
+        secret = os.getenv('SECRET_farrapp')
+
+        client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
+        sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
+        playlist_link = "https://open.spotify.com/playlist/37i9dQZF1DZ06evO0yp56w?si=ee44bc7d55d24e44"
+        playlist_URI = playlist_link.split("/")[-1].split("?")[0]
+        playlist_name = sp.playlist(playlist_id=playlist_URI, fields="name")["name"]
 
     # Json package
     serializer = EstablishmentInfoSerializer(establishment)
@@ -359,20 +367,46 @@ def fetch_establishment_info(request, establishment_id):
 
 
 @api_view(['GET'])
-def stats(request):
+def stats(request, establishment_id):
+
+    filename = "data.xlsx"
+
     ans_list = []
-    for i in Visualizations.objects.all():
+    sex_list = []
+    age_list = []
+    music_list = []
+    categ_list = []
+
+    for i in Visualizations.objects.filter(establishment__pk = establishment_id):
         today = datetime.today()
         age = today.year - i.client.birthday.year - (
                 (today.month, today.day) < (i.client.birthday.month, i.client.birthday.day))
-        list_temp = [i.establishment.pk, i.client.sex, age]
-        category_list = []
+        sex_list.append(i.client.sex)
+        age_list.append(age)
         for j in i.client.categories.all():
-            category_list.append(j.name)
-            category_list.append(j.type)
-        list_temp.append(category_list)
-        ans_list.append(list_temp)
-    print(ans_list)
+            if j.type == 'M':
+                music_list.append(j.name)
+            else:
+                categ_list.append(j.name)
+
+    ans_list.append(sex_list)
+    ans_list.append(age_list)
+    ans_list.append(music_list)
+    ans_list.append(categ_list)
+
+    xlsx_maker(filename, ans_list, ["Sexes", "#", "Ages", "#", "Music", "#", "Categories", "#"])
+
+    # who are we sending this email to?
+    to = "drogindito@gmail.com"
+
+    # what is our subject line?
+    subject = "FARRAPP User-Data"
+
+    # what is the body of the email?
+    body = "Hola, ¡Te escribimos de Farrapp! \nTe envíamos un correo con tus datos de este mes, esperamos que te sea útil, \nRecuerda que puedes contactarnos por este correo, \n¡y que la farra nunca pare!"
+    
+    send_email_w_attachment(to, subject, body, filename)
+
     return Response({"ok": "ok"}, status=status.HTTP_202_ACCEPTED)
 
 
