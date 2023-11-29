@@ -80,15 +80,17 @@ WSGI_APPLICATION = "farrapp.wsgi.application"
 if 'USER' in os.environ:
     DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "awsdb",
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "farrapp",
         "USER": os.getenv('USER'),
         "PASSWORD": os.getenv('PASSWORD'),
         "PORT": os.getenv('PORT'),
         "HOST": os.getenv('HOST'),
     }
+
 }
 else:
+    print('conected to local database')
     DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
