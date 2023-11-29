@@ -185,6 +185,7 @@ def search (request, page):
                                       "rating":rating, 
                                       "image_url":cur_establishment.image_url})
 
+
         if len(name) == 0:
             if sort_param == "rating":
                 pagin_results = sorted(pagin_results, key = lambda x: x['rating'], reverse = True)
@@ -194,7 +195,7 @@ def search (request, page):
         
         request.session['pagin_results'] = pagin_results
 
-    num_pa = 1
+    num_pa = 5
     tot_results = len(request.session['pagin_results']) 
     npages = (tot_results + num_pa - 1) // num_pa
     results = []
