@@ -85,7 +85,6 @@ if 'USER' in os.environ:
         "PORT": os.getenv('PORT'),
         "HOST": os.getenv('HOST'),
     }
-
 }
 else:
     print('conected to local database')

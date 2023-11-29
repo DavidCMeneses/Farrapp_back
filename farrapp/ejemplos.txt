@@ -2,27 +2,27 @@ ESTABLISHMENTS
 
 {
             "user_type":"establishment",
-            "username":"user001",
-            "email": "email001@gmail.com",
-            "password":"pass",
-            "name": "theatron",
+            "username":"paola0010",
+            "email": "paola0010@gmail.com",
+            "password":"Pass123",
+            "name": "presea",
             "address":"la esquina de las divinas",
             "city": "bogota",
             "country": "China",
-            "description": "Lugar donde puedes tomar ¿qué esperabas?",
+            "description": "barra libre los viernes",
             "rut": 11111,
             "verified": "false",
-            "image_url": "jijijaja.com",
+            "image_url": "https://reservandonos-cdn.s3.us-west-2.amazonaws.com/place/3683/gallery/Presea-Bar-Bogota-con-Reservandonos-1.jpg",
             "playlist_id": "https://open.spotify.com/playlist/37i9dQZF1DWSpF87bP6JSF",
-            "categories": [{"name":"reggaeton",
+            "categories": [{"name":"champeta",
                             "type":"M"},
-			   {"name":"bachata",
+			   {"name":"electronica",
                             "type":"M"},
-			   {"name":"denbow",
+			   {"name":"reggaeton",
                             "type":"M"}, 
-			   {"name":"bar gay",
-                            "type":"E"}, 
 			   {"name":"club de baile",
+                            "type":"E"}, 
+			   {"name":"bailadero",
                             "type":"E"},
 			   {"name":"bar",
                             "type":"E"}],
@@ -35,32 +35,31 @@ ESTABLISHMENTS
 		  	   "day":"saturday"}]
 }
 
+ "token": "9bd3a016b19d02a2ed76596ed3c1328425d53357"
+
+
 {
             "user_type":"establishment",
-            "username":"user002",
-            "email": "email002@gmail.com",
-            "password":"pass",
-            "name": "roots",
+            "username":"paola0020",
+            "email": "paola0020@gmail.com",
+            "password":"Pass123",
+            "name": "gringo tuesdays",
             "address":"la esquina de las divinas",
             "city": "bogota",
             "country": "China",
-            "description": "Lugar donde puedes tomar ¿qué esperabas?",
+            "description": "pa los gringos puñeteros",
             "rut": 11111,
             "verified": "false",
-            "image_url": "jijijaja.com",
-            "playlist_id": "https://open.spotify.com/playlist/37i9dQZF1EIWUdllkYVl6r",
-            "categories": [{"name":"reggaeton",
+            "image_url": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F494224159%2F716569145203%2F1%2Foriginal.20230417-122442?w=940&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C375%2C2250%2C1125&s=0c1a68ae59e94a0b2b84093606716eea",
+            "playlist_id": "https://open.spotify.com/playlist/37i9dQZF1DWSpF87bP6JSF",
+            "categories": [{"name":"rock",
                             "type":"M"},
-			   {"name":"rock",
+			   {"name":"rock and roll",
                             "type":"M"},
-			   {"name":"jazz",
-                            "type":"M"}, 
-			   {"name":"gastrobar",
+			   {"name":"bar internacional",
                             "type":"E"}, 
-			   {"name":"club de baile",
-                            "type":"E"},
-			   {"name":"bar hetero",
-                            "type":"E"}],
+			   {"name":"bar de los 80",
+                            "type":"E"}]
             "schedules": [{"open":"20:30:00",
                             "close":"03:00:00",
                             "day":"friday"
@@ -70,46 +69,13 @@ ESTABLISHMENTS
 		  	   "day":"saturday"}]
 }
 
+"token": "241fbad1893ab29f1359f7917caa27793c7b4940"
+ 
 {
             "user_type":"establishment",
-            "username":"user003",
-            "email": "email003@gmail.com",
-            "password":"pass",
-            "name": "la elite",
-            "address":"la esquina de las divinas",
-            "city": "bogota",
-            "country": "China",
-            "description": "Lugar donde puedes tomar ¿qué esperabas?",
-            "rut": 11111,
-            "verified": "false",
-            "image_url": "jijijaja.com",
-            "playlist_id": "https://open.spotify.com/playlist/37i9dQZF1DX10zKzsJ2jva",
-            "categories": [{"name":"alternativo",
-                            "type":"M"},
-			   {"name":"pop",
-                            "type":"M"},
-			   {"name":"salsa",
-                            "type":"M"}, 
-			   {"name":"discoteca",
-                            "type":"E"}, 
-			   {"name":"bar nocturno",
-                            "type":"E"},
-			   {"name":"bar libre",
-                            "type":"E"}],
-            "schedules": [{"open":"20:30:00",
-                            "close":"03:00:00",
-                            "day":"friday"
-                            },
-			  {"open":"21:00:00",
-			   "close":"04:30:00",
-		  	   "day":"saturday"}]
-}
-
-{
-            "user_type":"establishment",
-            "username":"user004",
-            "email": "email004@gmail.com",
-            "password":"pass",
+            "username":"user0040",
+            "email": "email0040@gmail.com",
+            "password":"Pass123",
             "name": "discoteca la 80",
             "address":"la esquina de las divinas",
             "city": "bogota",
@@ -117,8 +83,8 @@ ESTABLISHMENTS
             "description": "Lugar donde puedes tomar ¿qué esperabas?",
             "rut": 11111,
             "verified": "false",
-            "image_url": "jijijaja.com",
-            "playlist_id": "https://open.spotify.com/playlist/37i9dQZF1DWVskFRGurTfg",
+            "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/0a/21/f3/full-80s-calle-95.jpg?w=1200&h=-1&s=1",
+            "playlist_id": "https://open.spotify.com/playlist/37i9dQZF1DWSpF87bP6JSF",
             "categories": [{"name":"reggaeton",
                             "type":"M"},
 			   {"name":"trap",
@@ -140,11 +106,13 @@ ESTABLISHMENTS
 		  	   "day":"saturday"}]
 }
 
+"token": "423756cb763d39636f5c02308a2982579532e13e"
+
 {
             "user_type":"establishment",
-            "username":"user005",
-            "email": "email005@gmail.com",
-            "password":"pass",
+            "username":"user0050",
+            "email": "email0050@gmail.com",
+            "password":"Pass123",
             "name": "discoteca la 63",
             "address":"la esquina de las divinas",
             "city": "bogota",
@@ -152,8 +120,8 @@ ESTABLISHMENTS
             "description": "Lugar donde puedes tomar ¿qué esperabas?",
             "rut": 11111,
             "verified": "false",
-            "image_url": "jijijaja.com",
-            "playlist_id": "https://open.spotify.com/playlist/37i9dQZF1DWUPj9VuIP3Gq",
+            "image_url": "https://fastly.4sqi.net/img/general/600x600/10209515_nNiMOAK0CJvKD-d5s1udSD8fAePdKBPzeMYSn5AzS4o.jpg",
+            "playlist_id": "https://open.spotify.com/playlist/37i9dQZF1DWSpF87bP6JSF",
             "categories": [{"name":"pop",
                             "type":"M"},
 			   {"name":"rock",
@@ -175,11 +143,13 @@ ESTABLISHMENTS
 		  	   "day":"saturday"}]
 }
 
+"token": "2c3eff44dea0bf243ac3f6a16b203435e5bdddbf"
+
 {
             "user_type":"establishment",
-            "username":"user006",
-            "email": "email006@gmail.com",
-            "password":"pass",
+            "username":"user0060",
+            "email": "email0060@gmail.com",
+            "password":"Pass123",
             "name": "bar de los 80",
             "address":"la esquina de las divinas",
             "city": "bogota",
@@ -187,8 +157,8 @@ ESTABLISHMENTS
             "description": "Lugar donde puedes tomar ¿qué esperabas?",
             "rut": 11111,
             "verified": "false",
-            "image_url": "jijijaja.com",
-            "playlist_id": "https://open.spotify.com/playlist/37i9dQZF1DWUPj9VuIP3Gq",
+            "image_url": "https://www.parati.com.ar/wp-content/uploads/2022/05/Los-100-bar-ochentas-1280x720.jpg",
+            "playlist_id": "https://open.spotify.com/playlist/37i9dQZF1DWSpF87bP6JSF",
             "categories": [{"name":"pop",
                             "type":"M"},
 			   {"name":"rock",
@@ -210,14 +180,155 @@ ESTABLISHMENTS
 		  	   "day":"saturday"}]
 }
 
+ "token": "f58a0bc3ab685ad30c0ac31538fac8802e8458dc"
+
+{
+  "user_type": "establishment",
+  "username": "luz0030",
+  "email": "luz0030@gmail.com",
+  "password":"Pass123",
+  "name": "Sabor Tropical",
+  "address": "Avenida de las Rumbas #456",
+  "city": "Bogotá",
+  "country": "Colombia",
+  "description": "Cumbia y salsa todos los viernes",
+  "rut": 33333,
+  "verified": "false",
+  "image_url": "https://www.eltiempo.com/files/image_640_428/uploads/2021/02/24/6036f9806f45f.jpeg",
+  "playlist_id": "https://open.spotify.com/playlist/37i9dQZF1DWSpF87bP6JSF",
+  "categories": [
+    {"name": "cumbia", "type": "M"},
+    {"name": "salsa", "type": "M"},
+    {"name": "bar", "type": "E"}
+  ],
+  "schedules": [
+    {"open": "21:00:00", "close": "03:30:00", "day": "friday"},
+    {"open": "20:30:00", "close": "02:00:00", "day": "saturday"}
+  ]
+}
+
+"token": "b6a17857dba30d8fe294c71b9dd37607ac5c0d53"
+
+{
+  "user_type": "establishment",
+  "username": "juan0040",
+  "email": "juan0040@gmail.com",
+  "password":"Pass123",
+  "name": "Ritmo Latino",
+  "address": "Carrera de las Salsas #789",
+  "city": "Bogotá",
+  "country": "Colombia",
+  "description": "Noche de salsa los sábados",
+  "rut": 44444,
+  "verified": "false",
+  "image_url": "https://files.alerta.rcnradio.com/alerta_bogota/public/styles/amp_metadata_content_image_min_696px_wide/public/2022-03/discotecas_0.jpg?KOFXTczVv7GWt.JqBudYIfbMHRc950WJ&itok=728yUfZj",
+  "playlist_id": "https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M",
+  "categories": [
+    {"name": "salsa", "type": "M"},
+    {"name": "latin", "type": "M"},
+    {"name": "bar", "type": "E"}
+  ],
+  "schedules": [
+    {"open": "20:30:00", "close": "02:00:00", "day": "saturday"},
+    {"open": "19:00:00", "close": "01:30:00", "day": "sunday"}
+  ]
+}
+
+"token": "e6db30bdfef1ac98fcda8bdd0503680945bb042d"
+
+{
+  "user_type": "establishment",
+  "username": "clubbaile0050",
+  "email": "clubbaile0050@gmail.com",
+  "password":"Pass123",
+  "name": "Ritmos del Caribe",
+  "address": "Calle de la Salsa #789",
+  "city": "Bogotá",
+  "country": "Colombia",
+  "description": "Club de baile con música variada",
+  "rut": 55555,
+  "verified": "false",
+  "image_url": "https://top10hedonist.com/wp-content/uploads/2016/02/rumba-en-bogota.jpg",
+  "playlist_id": "https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M",
+  "categories": [
+    {"name": "salsa", "type": "M"},
+    {"name": "reggaeton", "type": "M"},
+    {"name": "club de baile", "type": "E"},
+    {"name": "latino", "type": "M"},
+    {"name": "bar", "type": "E"}
+  ],
+  "schedules": [
+    {"open": "22:00:00", "close": "04:00:00", "day": "friday"},
+    {"open": "21:30:00", "close": "03:00:00", "day": "saturday"}
+  ]
+}
+
+"token": "da899bd15300f9fb7b4f486881eb1acb4a38a438"
+
+{
+  "user_type": "establishment",
+  "username": "discoteca0060",
+  "email": "discoteca0060@gmail.com",
+  "password":"Pass123",
+  "name": "Fiesta Total",
+  "address": "Avenida de las Luces #123",
+  "city": "Bogotá",
+  "country": "Colombia",
+  "description": "Discoteca con los mejores éxitos del momento",
+  "rut": 66666,
+  "verified": "false",
+  "image_url": "https://www.semana.com/resizer/zoc19JpqUgYwfB1OGD6-MEnWyTw=/1280x720/smart/filters:format(jpg):quality(80)/cloudfront-us-east-1.images.arcpublishing.com/semana/Z7SGJSPESVAQBNYKK4EGNVT4UY.jpg",
+  "playlist_id": "https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M",
+  "categories": [
+    {"name": "pop", "type": "M"},
+    {"name": "electrónica", "type": "M"},
+    {"name": "discoteca", "type": "E"},
+    {"name": "latino", "type": "M"},
+    {"name": "fiesta", "type": "E"}
+  ],
+  "schedules": [
+    {"open": "23:00:00", "close": "05:00:00", "day": "saturday"},
+    {"open": "22:30:00", "close": "04:00:00", "day": "sunday"}
+  ]
+}
+
+"token": "d5f5bd86e7e5f839b6fb5c1d2a9139bf6e581f6b"
+
+{
+  "user_type": "establishment",
+  "username": "jazzbar0160",
+  "email": "jazzbar0160@gmail.com",
+  "password":"Pass123",
+  "name": "Notas de la Noche",
+  "address": "Calle del Jazz #456",
+  "city": "Bogotá",
+  "country": "Colombia",
+  "description": "Bar de jazz con ambiente relajado",
+  "rut": 16161,
+  "verified": "false",
+  "image_url": "https://media-cdn.tripadvisor.com/media/photo-s/14/ec/30/68/syncopa-jazz-and-cocktail.jpg",
+  "playlist_id": "https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M",
+  "categories": [
+    {"name": "jazz", "type": "M"},
+    {"name": "bar de jazz", "type": "E"},
+    {"name": "blues", "type": "M"},
+    {"name": "soul", "type": "M"}
+  ],
+  "schedules": [
+    {"open": "19:00:00", "close": "01:00:00", "day": "thursday"},
+    {"open": "20:00:00", "close": "02:00:00", "day": "saturday"}
+  ]
+}
+
+"token": "05c4832df191f67e383c8f93bf56e61b3735257e"
 
 CLIENTSSSSS
 
 {
             "user_type":"client",
-            "username":"user010",
-            "email": "email010@gmail.com",
-            "password":"pass",
+            "username":"user0100",
+            "email": "email0100@gmail.com",
+            "password":"Pass123",
             "first_name": "name1",
             "last_name":"ln1",
             "birthday":"2001-01-01",
@@ -229,14 +340,14 @@ CLIENTSSSSS
                             "type":"E"}
                         ]
 }
-"token": "1a29c49dbd697f133cf186b2e010d30b6fe73cfd",
-    "username": "user010"
+
+"token": "2ef2cbbea6b46a78319ba4fa7e39fe827d382701"
 
 {
             "user_type":"client",
-            "username":"user011",
-            "email": "email011@gmail.com",
-            "password":"pass",
+            "username":"user0110",
+            "email": "email0110@gmail.com",
+            "password":"Pass123",
             "first_name": "name1",
             "last_name":"ln1",
             "birthday":"2001-01-01",
@@ -253,5 +364,144 @@ CLIENTSSSSS
                         ]
 }
 
-"token": "71f3fe5d3b27a9f337d8229878785a544eece0c8",
-    "username": "user011"
+"token": "d574fa4e7a2cf1f934cc45a0dfd84d5a06ccb757"
+
+{
+  "user_type": "client",
+  "username": "melissa0250",
+  "email": "melissa0250@gmail.com",
+  "password":"Pass123",
+  "first_name": "Melissa",
+  "last_name": "Gomez",
+  "birthday": "1995-07-12",
+  "sex": "f",
+  "categories": [
+    {"name": "salsa", "type": "M"},
+    {"name": "bar de jazz", "type": "E"}
+  ]
+}
+
+"token": "ad0ed7ab433fcdf2bb574f8b469cf350c60edf7f"
+
+{
+  "user_type": "client",
+  "username": "juanito0360",
+  "email": "juanito0360@gmail.com",
+  "password":"Pass123",
+  "first_name": "Juanito",
+  "last_name": "Perez",
+  "birthday": "1990-03-22",
+  "sex": "m",
+  "categories": [
+    {"name": "bachata", "type": "M"},
+    {"name": "club de baile", "type": "E"}
+  ]
+}
+
+"token": "6bb941f3886a92664c05988ec79440a1a5b34f79"
+
+{
+  "user_type": "client",
+  "username": "ana0480",
+  "email": "drogindito@gmail.com",
+  "password":"Pass123",
+  "first_name": "Ana",
+  "last_name": "Lopez",
+  "birthday": "1988-11-05",
+  "sex": "f",
+  "categories": [
+    {"name": "reggaeton", "type": "M"},
+    {"name": "discoteca", "type": "E"}
+  ]
+}
+
+"token": "64957c5cc87efc215206ad3facad2df17d73a59c"
+
+{
+  "user_type": "client",
+  "username": "carlos0570",
+  "email": "carlos0570@gmail.com",
+  "password": "Pass123",
+  "first_name": "Carlos",
+  "last_name": "Rojas",
+  "birthday": "1992-09-18",
+  "sex": "m",
+  "categories": [
+    {"name": "merengue", "type": "M"},
+    {"name": "bar", "type": "E"}
+  ]
+}
+
+"token": "bbeb7899107a2244e2f0cf774751800c42ab9c63
+
+{
+  "user_type": "client",
+  "username": "laura0680",
+  "email": "laura0680@gmail.com",
+  "password": "Pass1236",
+  "first_name": "Laura",
+  "last_name": "Gutierrez",
+  "birthday": "1985-05-30",
+  "sex": "f",
+  "categories": [
+    {"name": "latin pop", "type": "M"},
+    {"name": "bar de los 80", "type": "E"}
+  ]
+}
+
+"token": "21bbf0a212d427dc36fe4c89d898fe5d5a2cf42e"
+
+{
+  "user_type": "client",
+  "username": "miguel0790",
+  "email": "miguel0790@gmail.com",
+  "password": "Pass123",
+  "first_name": "Miguel",
+  "last_name": "Fernandez",
+  "birthday": "1998-02-14",
+  "sex": "m",
+  "categories": [
+    {"name": "salsa", "type": "M"},
+    {"name": "bar gay", "type": "E"}
+  ]
+}
+
+"token": "2b07f91ac77b662c55434756ff0179b3a823e5b7"
+
+{
+  "user_type": "client",
+  "username": "maria0920",
+  "email": "maria0920@gmail.com",
+  "password": "Pass123",
+  "first_name": "Maria",
+  "last_name": "Hernandez",
+  "birthday": "1989-06-25",
+  "sex": "f",
+  "categories": [
+    {"name": "reggaeton", "type": "M"},
+    {"name": "salsa", "type": "M"},
+    {"name": "bachata", "type": "M"},
+    {"name": "latin pop", "type": "M"}
+  ]
+}
+
+"token": "11fef1416905a62cb63f757b459dd14b819c5ed5"
+
+{
+  "user_type": "client",
+  "username": "jorge1050",
+  "email": "jorge1050@gmail.com",
+  "password": "Pass123",
+  "first_name": "Jorge",
+  "last_name": "Ramirez",
+  "birthday": "1995-12-08",
+  "sex": "m",
+  "categories": [
+    {"name": "rock", "type": "M"},
+    {"name": "pop", "type": "M"},
+    {"name": "electrónica", "type": "M"},
+    {"name": "bar de los 80", "type": "E"}
+  ]
+}
+
+"token": "6890085a3ab6a00d1634d0f630fd978824e9519a"
