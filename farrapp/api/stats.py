@@ -13,10 +13,6 @@ from email.header import Header
 
 load_dotenv()
 
-gmail_pass = os.getenv('gmail_pass')
-user = os.getenv('user2')
-host = os.getenv('host2')
-port = int(os.getenv('port2'))
 
 def xlsx_maker(name, data, headers):
 
@@ -87,6 +83,11 @@ def xlsx_maker(name, data, headers):
     workbook.close()
 
 def send_email_w_attachment(to, subject, body, filename):
+    gmail_pass = os.getenv('gmail_pass')
+    user = os.getenv('user2')
+    host = os.getenv('host2')
+    port = int(os.getenv('port2'))
+    
     # create message object
     message = MIMEMultipart()
 
