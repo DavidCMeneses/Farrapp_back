@@ -14,7 +14,6 @@ from .search import search_est
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-import json
 
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
@@ -22,6 +21,14 @@ from spotipy.oauth2 import SpotifyClientCredentials
 import os
 from dotenv import dotenv_values,load_dotenv
 
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.application import MIMEApplication
+from email.header import Header
+
+import xlsxwriter
+from collections import Counter
 
 @api_view(['POST'])
 def login(request, user_type):
@@ -278,7 +285,6 @@ def delete_user(request,user_type):
 @permission_classes([IsAuthenticated])
 def fetch_establishment_info(request, establishment_id):
     
-
     try:
         establishment = EstablishmentModel.objects.get(pk = establishment_id)
     except ObjectDoesNotExist:
@@ -292,6 +298,8 @@ def fetch_establishment_info(request, establishment_id):
         #Authentication - without user
         cid = os.getenv('CID_farrapp')
         secret = os.getenv('SECRET_farrapp')
+        print(cid)
+        print(secret)
 
         client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
         sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
@@ -301,7 +309,20 @@ def fetch_establishment_info(request, establishment_id):
         playlist_name = sp.playlist(playlist_id=playlist_URI, fields="name")["name"]
 
     except:
-        return Response({'error': 'Invalid playlist'}, status=status.HTTP_404_NOT_FOUND)
+        #Authentication - without user
+        cid = os.getenv('CID_farrapp')
+        secret = os.getenv('SECRET_farrapp')
+        print(cid)
+        print(secret)
+
+
+        client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
+        sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
+
+        playlist_link = "https://open.spotify.com/playlist/37i9dQZF1DZ06evO0yp56w?si=9cb449d830bf4682"
+        playlist_URI = playlist_link.split("/")[-1].split("?")[0]
+        playlist_name = sp.playlist(playlist_id=playlist_URI, fields="name")["name"]
+        
 
     #Json package
     serializer = EstablishmentInfoSerializer(establishment)
@@ -343,17 +364,138 @@ def fetch_establishment_info(request, establishment_id):
     return Response(track_list, status=status.HTTP_202_ACCEPTED)
 
 @api_view(['GET'])
-def stats(request):
-    ans_list = []
-    for i in Visualizations.objects.all():
+def stats(request, establishment_id):
+
+    sex_list = []
+    age_list = []
+    music_list = []
+    categ_list = []
+
+    for i in Visualizations.objects.filter(establishment__pk = establishment_id):
         today = datetime.today()
         age = today.year - i.client.birthday.year - ((today.month, today.day) < (i.client.birthday.month, i.client.birthday.day))
-        list_temp = [i.establishment.pk, i.client.sex,age]
-        category_list = []
+        
+        sex_list.append(i.client.sex)
+        age_list.append(age)
         for j in i.client.categories.all():
-            category_list.append(j.name)
-            category_list.append(j.type)
-        list_temp.append(category_list)
-        ans_list.append(list_temp)
-    print(ans_list)
+            if j.type == "M":
+                music_list.append(j.name)
+            else:
+                categ_list.append(j.name)
+
+
+    workbook = xlsxwriter.Workbook('data.xlsx')
+    worksheet = workbook.add_worksheet()
+
+    headers = ["Sexes", " #", "Ages", " #", "Music", " #", "Categories", " #"]
+
+    for col_num, headers in enumerate(headers):
+        worksheet.write(0, col_num, headers)
+
+
+    worksheet.write_column('A2', Counter(sex_list).keys())
+    worksheet.write_column('B2', Counter(sex_list).values())
+
+    worksheet.write_column('C2', Counter(age_list).keys())
+    worksheet.write_column('D2', Counter(age_list).values())
+
+    worksheet.write_column('E2', Counter(music_list).keys())
+    worksheet.write_column('F2', Counter(music_list).values())
+
+    worksheet.write_column('G2', Counter(categ_list).keys())
+    worksheet.write_column('H2', Counter(categ_list).values())
+
+
+    chart1 = workbook.add_chart({"type": "pie"})
+    chart1.add_series(
+        {
+            "name": "Pie sex data",
+            "categories": "=Sheet1!$A$2:$A$"+str(len(Counter(sex_list).keys())+1),
+            "values": "=Sheet1!$B$2:$B$"+str(len(Counter(sex_list).keys())+1),
+        }
+    )
+    chart1.set_title({"name": "Pie Chart Sexes"})
+    worksheet.insert_chart("J1", chart1, {"x_offset": 25, "y_offset": 10})
+
+    chart2 = workbook.add_chart({"type": "pie"})
+    chart2.add_series(
+        {
+            "name": "Pie age data",
+            "categories": "=Sheet1!$C$2:$C$"+str(len(Counter(age_list).keys())+1),
+            "values": "=Sheet1!$D$2:$D$"+str(len(Counter(age_list).keys())+1),
+        }
+    )
+    chart2.set_title({"name": "Pie Chart Ages"})
+    worksheet.insert_chart("J16", chart2, {"x_offset": 25, "y_offset": 10})
+
+    chart3 = workbook.add_chart({"type": "pie"})
+    chart3.add_series(
+        {
+            "name": "Pie Music data",
+            "categories": "=Sheet1!$E$2:$E$"+str(len(Counter(music_list).keys())+1),
+            "values": "=Sheet1!$F$2:$F$"+str(len(Counter(music_list).keys())+1),
+        }
+    )
+    chart3.set_title({"name": "Pie Chart Music"})
+    worksheet.insert_chart("J32", chart3, {"x_offset": 25, "y_offset": 10})
+
+    chart4 = workbook.add_chart({"type": "pie"})
+    chart4.add_series(
+        {
+            "name": "Pie Category data",
+            "categories": "=Sheet1!$G$2:$G$"+str(len(Counter(categ_list).keys())+1),
+            "values": "=Sheet1!$H$2:$H$"+str(len(Counter(categ_list).keys())+1),
+        }
+    )
+    chart4.set_title({"name": "Pie Chart Categories"})
+    worksheet.insert_chart("J46", chart4, {"x_offset": 25, "y_offset": 10})
+
+    workbook.close()
+
+    gmail_pass = os.getenv('gmail_pass')
+    user = os.getenv('user2')
+    host = os.getenv('host2')
+    port = int(os.getenv('port2'))
+
+    # who are we sending this email to?
+    to = "drogindito@gmail.com"
+
+    # what is our subject line?
+    subject = "FARRAPP User-Data"
+
+    # what is the body of the email?
+    body = "Hola, ¡Te escribimos de Farrapp! \nTe envíamos un correo con tus datos de este mes, esperamos que te sea útil, \nRecuerda que puedes contactarnos por este correo, \n¡y que la farra nunca pare!"
+
+    # what is the name of the file we want to attach?
+    filename = "data.xlsx"
+
+        # create message object
+    message = MIMEMultipart()
+
+    # add in header
+    message['From'] = Header(user)
+    message['To'] = Header(to)
+    message['Subject'] = Header(subject)
+
+    # attach message body as MIMEText
+    message.attach(MIMEText(body, 'plain', 'utf-8'))
+
+    # locate and attach desired attachments
+    att_name = os.path.basename(filename)
+    _f = open(filename, 'rb')
+    att = MIMEApplication(_f.read(), _subtype="txt")
+    _f.close()
+    att.add_header('Content-Disposition', 'attachment', filename=att_name)
+    message.attach(att)
+
+    # setup email server
+    server = smtplib.SMTP_SSL(host, port)
+    server.login(user, gmail_pass)
+
+
+    # send email and quit server
+    server.sendmail(user, to, message.as_string())
+    server.quit()
+
+
     return Response({"ok":"ok"},status=status.HTTP_202_ACCEPTED)
