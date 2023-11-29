@@ -4,10 +4,11 @@ from rest_framework.decorators import api_view
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
+from datetime import datetime
 from .Conejito_Auth import CustomToken, TokenAuthentication
 from .models import ClientModel, EstablishmentModel, Rating, Category, Visualizations
-from .serializers import UserSerializer, EstablishmentSerializer, EstablishmentQuerySerializer, UserUpdateInfoSerializer, EstablishmentUpdateInfoSerializer, EstablishmentInfoSerializer
+from .serializers import UserSerializer, EstablishmentSerializer, EstablishmentQuerySerializer, \
+    UserUpdateInfoSerializer, EstablishmentUpdateInfoSerializer, EstablishmentInfoSerializer
 
 from .search import search_est
 
@@ -20,7 +21,7 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
 import os
-from dotenv import dotenv_values,load_dotenv
+from dotenv import dotenv_values, load_dotenv
 
 
 @api_view(['POST'])
@@ -38,13 +39,12 @@ def login(request, user_type):
     if not user.check_password(request.data['password']):
         return Response({'error': 'Wrong password'}, status=status.HTTP_404_NOT_FOUND)
     token, created = CustomToken.objects.get_or_create(user=user)
-    return Response({'token': token.key, "username": serializer.data["username"], "id": serializer.data["pk"]}, status=status.HTTP_200_OK)
+    return Response({'token': token.key, "username": serializer.data["username"], "id": serializer.data["pk"]},
+                    status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
-
 def signup(request, user_type):
-    #user_type = request.data.get('user_type', None)
     if user_type is None:
         return Response({'error': 'You must provide a user type'}, status=status.HTTP_404_NOT_FOUND)
     if user_type == 'client':
@@ -59,7 +59,8 @@ def signup(request, user_type):
         user.set_password(request.data['password'])
         user.save()
         token = CustomToken.objects.create(user=user)
-        return Response({'token': token.key, "username": serializer.data["username"], "id":serializer.data["pk"]}, status=status.HTTP_201_CREATED)
+        return Response({'token': token.key, "username": serializer.data["username"], "id": serializer.data["pk"]},
+                        status=status.HTTP_201_CREATED)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -69,6 +70,7 @@ def signup(request, user_type):
 @permission_classes([IsAuthenticated])
 def check_auth(request):
     return Response(f"auth OK for user {request.user.username}", status=status.HTTP_200_OK)
+
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
@@ -225,35 +227,37 @@ def search(request, page):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def rate(request):
-    client_r = ClientModel.objects.get(username = request.user.username)
-    establishment_r = EstablishmentModel.objects.get(pk = request.data.get('establishment_id'))
+    client_r = ClientModel.objects.get(username=request.user.username)
+    establishment_r = EstablishmentModel.objects.get(pk=request.data.get('establishment_id'))
     stars = request.data.get('rating')
     try:
-        cur_rate = Rating.objects.get(client = client_r, establishment = establishment_r)
-        establishment_r.overall_rating += stars - cur_rate.stars            
+        cur_rate = Rating.objects.get(client=client_r, establishment=establishment_r)
+        establishment_r.overall_rating += stars - cur_rate.stars
         cur_rate.stars = stars
         establishment_r.save()
         cur_rate.save()
     except ObjectDoesNotExist:
-        Rating.objects.create(stars = stars, client = client_r, establishment = establishment_r)
+        Rating.objects.create(stars=stars, client=client_r, establishment=establishment_r)
         establishment_r.overall_rating += stars
         establishment_r.number_of_reviews += 1
         establishment_r.save()
-    return Response({'user' : request.user.username, 'establishment' : establishment_r.name}, status=status.HTTP_202_ACCEPTED)
+    return Response({'user': request.user.username, 'establishment': establishment_r.name},
+                    status=status.HTTP_202_ACCEPTED)
+
 
 @api_view(['PUT'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def update_preferences(request,user_type):
-    #user_type = request.data.get('user_type', None)
-    
+def update_preferences(request, user_type):
+    # user_type = request.data.get('user_type', None)
+
     if user_type is None:
         return Response({'error': 'You must provide a user type'}, status=status.HTTP_404_NOT_FOUND)
     if user_type == 'client':
         obj = get_object_or_404(ClientModel, username=request.user.username)
-        #print (obj)
+        # print (obj)
         serializer = UserUpdateInfoSerializer(obj, data=request.data)
-        
+
     elif user_type == 'establishment':
         obj = get_object_or_404(EstablishmentModel, username=request.user.username)
         serializer = EstablishmentUpdateInfoSerializer(obj, data=request.data)
@@ -266,14 +270,15 @@ def update_preferences(request,user_type):
 
         return Response(f"Update accepted for user {request.user.username}", status=status.HTTP_202_ACCEPTED)
     else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)    
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['DELETE'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def delete_user(request,user_type):
-    #user_type = request.data.get('user_type', None)
-    
+def delete_user(request, user_type):
+    # user_type = request.data.get('user_type', None)
+
     if user_type is None:
         return Response({'error': 'You must provide a user type'}, status=status.HTTP_404_NOT_FOUND)
     if user_type == 'client':
@@ -284,7 +289,7 @@ def delete_user(request,user_type):
         EstablishmentModel.delete(obj)
     else:
         return Response({'error': 'User type not found'}, status=status.HTTP_404_NOT_FOUND)
-    
+
     return Response(f"Delete accepted for user {request.user.username}", status=status.HTTP_202_ACCEPTED)
 
 
@@ -293,16 +298,15 @@ def delete_user(request,user_type):
 @permission_classes([IsAuthenticated])
 def fetch_establishment_info(request, establishment_id):
     try:
-        establishment = EstablishmentModel.objects.get(pk = establishment_id)
+        establishment = EstablishmentModel.objects.get(pk=establishment_id)
     except ObjectDoesNotExist:
-        return Response({'error':'invalid id'}, status=status.HTTP_404_NOT_FOUND)
-
+        return Response({'error': 'invalid id'}, status=status.HTTP_404_NOT_FOUND)
     user_rating = -1
     try:
-        client_r = ClientModel.objects.get(username = request.user.username)
-        Visualizations.objects.get_or_create(client = client_r, establishment = establishment)
+        client_r = ClientModel.objects.get(username=request.user.username)
+        Visualizations.objects.get_or_create(client=client_r, establishment=establishment)
         try:
-            cur_rate = Rating.objects.get(client = client_r, establishment = establishment)
+            cur_rate = Rating.objects.get(client=client_r, establishment=establishment)
             user_rating = cur_rate.stars
         except ObjectDoesNotExist:
             user_rating = -1
@@ -310,12 +314,12 @@ def fetch_establishment_info(request, establishment_id):
         user_rating = -1
 
     try:
-        #Authentication - without user
+        # Authentication - without user
         cid = os.getenv('CID_farrapp')
         secret = os.getenv('SECRET_farrapp')
 
         client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
-        sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
+        sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
         playlist_link = establishment.playlist_id
         playlist_URI = playlist_link.split("/")[-1].split("?")[0]
@@ -324,34 +328,68 @@ def fetch_establishment_info(request, establishment_id):
     except:
         return Response({'error': 'Invalid playlist'}, status=status.HTTP_404_NOT_FOUND)
 
-    #Json package
+    # Json package
     serializer = EstablishmentInfoSerializer(establishment)
 
-    #Rating
+    # Rating
     if establishment.number_of_reviews != 0:
-        rating = establishment.overall_rating/establishment.number_of_reviews
-    else: 
+        rating = establishment.overall_rating / establishment.number_of_reviews
+    else:
         rating = 5
 
-    track_list = {"user_rating":user_rating,"playlist_name": playlist_name, "tracks":[], "rating": rating} 
+    track_list = {"user_rating": user_rating, "playlist_name": playlist_name, "tracks": [], "rating": rating}
+
     tracks = sp.playlist_tracks(playlist_URI)["items"]
 
-    for i in range(0,min(5,len(tracks))):
+    for i in range(0, min(5, len(tracks))):
         track = tracks[i]
 
-        #Track name
+        # Track name
         track_name = track["track"]["name"]
 
-        #Track id
+        # Track id
         track_id = track["track"]["preview_url"]
-        
-        #Artist name
+
+        # Artist name
         artist_name = track["track"]["artists"][0]["name"]
 
         temp_dict = {"track_name": track_name, "track_url": track_id, "artist_name": artist_name}
         track_list["tracks"].append(temp_dict)
 
-
     track_list.update(serializer.data)
     return Response(track_list, status=status.HTTP_202_ACCEPTED)
 
+
+@api_view(['GET'])
+def stats(request):
+    ans_list = []
+    for i in Visualizations.objects.all():
+        today = datetime.today()
+        age = today.year - i.client.birthday.year - (
+                (today.month, today.day) < (i.client.birthday.month, i.client.birthday.day))
+        list_temp = [i.establishment.pk, i.client.sex, age]
+        category_list = []
+        for j in i.client.categories.all():
+            category_list.append(j.name)
+            category_list.append(j.type)
+        list_temp.append(category_list)
+        ans_list.append(list_temp)
+    print(ans_list)
+    return Response({"ok": "ok"}, status=status.HTTP_202_ACCEPTED)
+
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def fetch_self_data(request, user_type):
+    if user_type is None:
+        return Response({'error': 'You must provide a user type'}, status=status.HTTP_404_NOT_FOUND)
+    if user_type == 'client':
+        user = get_object_or_404(ClientModel, username=request.user.username)
+        serializer = UserSerializer(instance=user)
+    elif user_type == 'establishment':
+        user = get_object_or_404(EstablishmentModel, username=request.user.username)
+        serializer = EstablishmentSerializer(instance=user)
+    else:
+        return Response({'error': 'User type not found'}, status=status.HTTP_404_NOT_FOUND)
+    return Response(serializer.data, status=status.HTTP_200_OK)
