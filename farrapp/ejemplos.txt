@@ -2,9 +2,9 @@ ESTABLISHMENTS
 
 {
             "user_type":"establishment",
-            "username":"paola001",
-            "email": "paola001@gmail.com",
-            "password":"pass",
+            "username":"paola0010",
+            "email": "paola0010@gmail.com",
+            "password":"Pass123",
             "name": "presea",
             "address":"la esquina de las divinas",
             "city": "bogota",
@@ -35,13 +35,14 @@ ESTABLISHMENTS
 		  	   "day":"saturday"}]
 }
 
+ "token": "9bd3a016b19d02a2ed76596ed3c1328425d53357"
 
 
 {
             "user_type":"establishment",
-            "username":"paola002",
-            "email": "paola002@gmail.com",
-            "password":"pass",
+            "username":"paola0020",
+            "email": "paola0020@gmail.com",
+            "password":"Pass123",
             "name": "gringo tuesdays",
             "address":"la esquina de las divinas",
             "city": "bogota",
@@ -67,14 +68,14 @@ ESTABLISHMENTS
 			   "close":"04:30:00",
 		  	   "day":"saturday"}]
 }
-token: "cbcf9091a2960b7529aaeff189f6c0826573d6e4"
 
-
+"token": "241fbad1893ab29f1359f7917caa27793c7b4940"
+ 
 {
             "user_type":"establishment",
-            "username":"user004",
-            "email": "email004@gmail.com",
-            "password":"pass",
+            "username":"user0040",
+            "email": "email0040@gmail.com",
+            "password":"Pass123",
             "name": "discoteca la 80",
             "address":"la esquina de las divinas",
             "city": "bogota",
@@ -105,13 +106,13 @@ token: "cbcf9091a2960b7529aaeff189f6c0826573d6e4"
 		  	   "day":"saturday"}]
 }
 
-token: d6d2b16f2c742cc0df743fbe2b51b477484a0889
+"token": "423756cb763d39636f5c02308a2982579532e13e"
 
 {
             "user_type":"establishment",
-            "username":"user005",
-            "email": "email005@gmail.com",
-            "password":"pass",
+            "username":"user0050",
+            "email": "email0050@gmail.com",
+            "password":"Pass123",
             "name": "discoteca la 63",
             "address":"la esquina de las divinas",
             "city": "bogota",
@@ -141,13 +142,14 @@ token: d6d2b16f2c742cc0df743fbe2b51b477484a0889
 			   "close":"04:30:00",
 		  	   "day":"saturday"}]
 }
-"token": "961a9859236bc60eec04ece997982910d4d74741"
+
+"token": "2c3eff44dea0bf243ac3f6a16b203435e5bdddbf"
 
 {
             "user_type":"establishment",
-            "username":"user006",
-            "email": "email006@gmail.com",
-            "password":"pass",
+            "username":"user0060",
+            "email": "email0060@gmail.com",
+            "password":"Pass123",
             "name": "bar de los 80",
             "address":"la esquina de las divinas",
             "city": "bogota",
@@ -177,13 +179,14 @@ token: d6d2b16f2c742cc0df743fbe2b51b477484a0889
 			   "close":"04:30:00",
 		  	   "day":"saturday"}]
 }
-"token": "f2a5c970e990dbdfe5aece85a521f95034b77c0c"
+
+ "token": "f58a0bc3ab685ad30c0ac31538fac8802e8458dc"
 
 {
   "user_type": "establishment",
-  "username": "luz003",
-  "email": "luz003@gmail.com",
-  "password": "clave_segura",
+  "username": "luz0030",
+  "email": "luz0030@gmail.com",
+  "password":"Pass123",
   "name": "Sabor Tropical",
   "address": "Avenida de las Rumbas #456",
   "city": "Bogotá",
@@ -204,13 +207,13 @@ token: d6d2b16f2c742cc0df743fbe2b51b477484a0889
   ]
 }
 
-"token": "259f0222ced8fef7c660104c93d8ff78abebb810"
+"token": "b6a17857dba30d8fe294c71b9dd37607ac5c0d53"
 
 {
   "user_type": "establishment",
-  "username": "juan004",
-  "email": "juan004@gmail.com",
-  "password": "contraseña123",
+  "username": "juan0040",
+  "email": "juan0040@gmail.com",
+  "password":"Pass123",
   "name": "Ritmo Latino",
   "address": "Carrera de las Salsas #789",
   "city": "Bogotá",
@@ -231,13 +234,13 @@ token: d6d2b16f2c742cc0df743fbe2b51b477484a0889
   ]
 }
 
-"token": "1bcb5311c3c79b6d972f92b0d31da4a004fbdd97"
+"token": "e6db30bdfef1ac98fcda8bdd0503680945bb042d"
 
 {
   "user_type": "establishment",
-  "username": "clubbaile005",
-  "email": "clubbaile005@gmail.com",
-  "password": "clave_segura",
+  "username": "clubbaile0050",
+  "email": "clubbaile0050@gmail.com",
+  "password":"Pass123",
   "name": "Ritmos del Caribe",
   "address": "Calle de la Salsa #789",
   "city": "Bogotá",
@@ -260,13 +263,13 @@ token: d6d2b16f2c742cc0df743fbe2b51b477484a0889
   ]
 }
 
-"token": "a68abcb0ed66335a61f13e38ce45114189dfc4fa"
+"token": "da899bd15300f9fb7b4f486881eb1acb4a38a438"
 
 {
   "user_type": "establishment",
-  "username": "discoteca006",
-  "email": "discoteca006@gmail.com",
-  "password": "contraseña123",
+  "username": "discoteca0060",
+  "email": "discoteca0060@gmail.com",
+  "password":"Pass123",
   "name": "Fiesta Total",
   "address": "Avenida de las Luces #123",
   "city": "Bogotá",
@@ -289,13 +292,13 @@ token: d6d2b16f2c742cc0df743fbe2b51b477484a0889
   ]
 }
 
-    "token": "adb0f820cf79bf79c0442f316cd819077905f6fc",
+"token": "d5f5bd86e7e5f839b6fb5c1d2a9139bf6e581f6b"
 
 {
   "user_type": "establishment",
-  "username": "jazzbar016",
-  "email": "jazzbar016@gmail.com",
-  "password": "jazz123",
+  "username": "jazzbar0160",
+  "email": "jazzbar0160@gmail.com",
+  "password":"Pass123",
   "name": "Notas de la Noche",
   "address": "Calle del Jazz #456",
   "city": "Bogotá",
@@ -317,15 +320,15 @@ token: d6d2b16f2c742cc0df743fbe2b51b477484a0889
   ]
 }
 
-"token": "2c19b038f7584335ac70999da7e0e590e2fb4dea"
+"token": "05c4832df191f67e383c8f93bf56e61b3735257e"
 
 CLIENTSSSSS
 
 {
             "user_type":"client",
-            "username":"user010",
-            "email": "email010@gmail.com",
-            "password":"pass",
+            "username":"user0100",
+            "email": "email0100@gmail.com",
+            "password":"Pass123",
             "first_name": "name1",
             "last_name":"ln1",
             "birthday":"2001-01-01",
@@ -338,13 +341,13 @@ CLIENTSSSSS
                         ]
 }
 
-    "token": "f6824281d733322108dd4e66946995a7ec3a176d"
+"token": "2ef2cbbea6b46a78319ba4fa7e39fe827d382701"
 
 {
             "user_type":"client",
-            "username":"user011",
-            "email": "email011@gmail.com",
-            "password":"pass",
+            "username":"user0110",
+            "email": "email0110@gmail.com",
+            "password":"Pass123",
             "first_name": "name1",
             "last_name":"ln1",
             "birthday":"2001-01-01",
@@ -361,13 +364,13 @@ CLIENTSSSSS
                         ]
 }
 
-"token": "d1396ad231c0da87a27c384435e409edcbca9e23"
+"token": "d574fa4e7a2cf1f934cc45a0dfd84d5a06ccb757"
 
 {
   "user_type": "client",
-  "username": "melissa025",
-  "email": "melissa025@gmail.com",
-  "password": "clave_segura",
+  "username": "melissa0250",
+  "email": "melissa0250@gmail.com",
+  "password":"Pass123",
   "first_name": "Melissa",
   "last_name": "Gomez",
   "birthday": "1995-07-12",
@@ -378,13 +381,13 @@ CLIENTSSSSS
   ]
 }
 
-"token": "b76210c3147408215329e3faff45297a1c81595b"
+"token": "ad0ed7ab433fcdf2bb574f8b469cf350c60edf7f"
 
 {
   "user_type": "client",
-  "username": "juanito036",
-  "email": "juanito036@gmail.com",
-  "password": "contraseña123",
+  "username": "juanito0360",
+  "email": "juanito0360@gmail.com",
+  "password":"Pass123",
   "first_name": "Juanito",
   "last_name": "Perez",
   "birthday": "1990-03-22",
@@ -395,13 +398,13 @@ CLIENTSSSSS
   ]
 }
 
-"token": "5c03471edb8b9aa3fb82bbc71ebe4a500e63d030"
+"token": "6bb941f3886a92664c05988ec79440a1a5b34f79"
 
 {
   "user_type": "client",
-  "username": "ana048",
-  "email": "ana048@gmail.com",
-  "password": "clave123",
+  "username": "ana0480",
+  "email": "drogindito@gmail.com",
+  "password":"Pass123",
   "first_name": "Ana",
   "last_name": "Lopez",
   "birthday": "1988-11-05",
@@ -412,13 +415,13 @@ CLIENTSSSSS
   ]
 }
 
-"token": "f214027e024b7c061d6c08767aa28c7b568a59e0"
+"token": "64957c5cc87efc215206ad3facad2df17d73a59c"
 
 {
   "user_type": "client",
-  "username": "carlos057",
-  "email": "carlos057@gmail.com",
-  "password": "seguro123",
+  "username": "carlos0570",
+  "email": "carlos0570@gmail.com",
+  "password": "Pass123",
   "first_name": "Carlos",
   "last_name": "Rojas",
   "birthday": "1992-09-18",
@@ -429,13 +432,13 @@ CLIENTSSSSS
   ]
 }
 
-"token": "18d2a9e6cb4ef68c73691092defbd4327cd4c80f"
+"token": "bbeb7899107a2244e2f0cf774751800c42ab9c63
 
 {
   "user_type": "client",
-  "username": "laura068",
-  "email": "laura068@gmail.com",
-  "password": "contraseña456",
+  "username": "laura0680",
+  "email": "laura0680@gmail.com",
+  "password": "Pass1236",
   "first_name": "Laura",
   "last_name": "Gutierrez",
   "birthday": "1985-05-30",
@@ -446,13 +449,13 @@ CLIENTSSSSS
   ]
 }
 
-"token": "30f1aebb7ce04856a55fd2eb80516dc652e04af7"
+"token": "21bbf0a212d427dc36fe4c89d898fe5d5a2cf42e"
 
 {
   "user_type": "client",
-  "username": "miguel079",
-  "email": "miguel079@gmail.com",
-  "password": "claveMiguel",
+  "username": "miguel0790",
+  "email": "miguel0790@gmail.com",
+  "password": "Pass123",
   "first_name": "Miguel",
   "last_name": "Fernandez",
   "birthday": "1998-02-14",
@@ -463,13 +466,13 @@ CLIENTSSSSS
   ]
 }
 
-"token": "aa7e920825845cc840c7035ee338d4963b48f1b4"
+"token": "2b07f91ac77b662c55434756ff0179b3a823e5b7"
 
 {
   "user_type": "client",
-  "username": "maria092",
-  "email": "maria092@gmail.com",
-  "password": "contraseñaMaria",
+  "username": "maria0920",
+  "email": "maria0920@gmail.com",
+  "password": "Pass123",
   "first_name": "Maria",
   "last_name": "Hernandez",
   "birthday": "1989-06-25",
@@ -482,13 +485,13 @@ CLIENTSSSSS
   ]
 }
 
-"token": "edad1b7299323f24f612f3bc6362add122ca03ff"
+"token": "11fef1416905a62cb63f757b459dd14b819c5ed5"
 
 {
   "user_type": "client",
-  "username": "jorge105",
-  "email": "jorge105@gmail.com",
-  "password": "claveJorge",
+  "username": "jorge1050",
+  "email": "jorge1050@gmail.com",
+  "password": "Pass123",
   "first_name": "Jorge",
   "last_name": "Ramirez",
   "birthday": "1995-12-08",
@@ -501,4 +504,4 @@ CLIENTSSSSS
   ]
 }
 
-"token": "32d53ee6b64aef3abe31f7c7c65998fa4066565c"
+"token": "6890085a3ab6a00d1634d0f630fd978824e9519a"
