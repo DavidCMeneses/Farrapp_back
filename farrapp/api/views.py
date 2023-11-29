@@ -288,16 +288,15 @@ def fetch_establishment_info(request, establishment_id):
         return Response({'error': 'invalid id'}, status=status.HTTP_404_NOT_FOUND)
     user_rating = -1
     try:
-        client_r = ClientModel.objects.get(username = request.user.username)
-        Visualizations.objects.get_or_create(client = client_r, establishment = establishment)
+        client_r = ClientModel.objects.get(username=request.user.username)
+        Visualizations.objects.get_or_create(client=client_r, establishment=establishment)
         try:
-            cur_rate = Rating.objects.get(client = client_r, establishment = establishment)
+            cur_rate = Rating.objects.get(client=client_r, establishment=establishment)
             user_rating = cur_rate.stars
         except ObjectDoesNotExist:
             user_rating = -1
     except ObjectDoesNotExist:
         user_rating = -1
-
 
     try:
         # Authentication - without user
@@ -323,8 +322,7 @@ def fetch_establishment_info(request, establishment_id):
     else:
         rating = 5
 
-
-    track_list = {"user_rating":user_rating,"playlist_name": playlist_name, "tracks":[], "rating": rating} 
+    track_list = {"user_rating": user_rating, "playlist_name": playlist_name, "tracks": [], "rating": rating}
 
     tracks = sp.playlist_tracks(playlist_URI)["items"]
 
@@ -353,7 +351,7 @@ def stats(request):
     for i in Visualizations.objects.all():
         today = datetime.today()
         age = today.year - i.client.birthday.year - (
-                    (today.month, today.day) < (i.client.birthday.month, i.client.birthday.day))
+                (today.month, today.day) < (i.client.birthday.month, i.client.birthday.day))
         list_temp = [i.establishment.pk, i.client.sex, age]
         category_list = []
         for j in i.client.categories.all():
